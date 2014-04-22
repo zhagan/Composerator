@@ -24,7 +24,7 @@ public class Pitch_Chain implements Chain {
     @Override
     public void print_chain()
     {
-        System.out.print("Pitches: [");
+        System.out.print("Pitches (" + pitches.size() + "): [");
         for (Pitch p : pitches)
         {
             System.out.print(" " + p.getPitch_class() + p.getOctave() + " ");

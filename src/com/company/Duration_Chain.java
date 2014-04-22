@@ -25,7 +25,7 @@ public class Duration_Chain implements Chain {
     @Override
     public void print_chain()
     {
-        System.out.print("Durations: [");
+        System.out.print("Durations (" + durations.size() + "): [");
         for (Duration d : durations)
         {
             System.out.print(" " + String.format("%1$,.2f", d.getTime()) + " ");

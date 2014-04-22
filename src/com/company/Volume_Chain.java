@@ -12,7 +12,8 @@ public class Volume_Chain implements Chain {
     private List<Volume> volumes = new ArrayList<Volume>();
 
     // constructor
-    public Volume_Chain() {
+    public Volume_Chain()
+    {
         // initialize variables
 
     }
@@ -26,7 +27,7 @@ public class Volume_Chain implements Chain {
     @Override
     public void print_chain()
     {
-        System.out.print("Volumes: [");
+        System.out.print("Volumes (" + volumes.size() + "): [");
         for (Volume v : volumes)
         {
             System.out.print(" " + String.format("%1$,.2f", v.getVol()) + " ");

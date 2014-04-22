@@ -26,7 +26,7 @@ public class Note_Chain implements Chain {
     @Override
     public void print_chain()
     {
-        System.out.print("Notes: [");
+        System.out.print("Notes (" + notes.size() + "): [");
         for (Note n : notes)
         {
             System.out.print(" (" + n.getPitch().getPitch_class() + n.getPitch().getOctave() + ", " +

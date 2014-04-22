@@ -216,15 +216,21 @@ public class MIDI_File {
         // initialize new rest with just a duration (default values of
         // pitch and volume are encapsulated in the rest constructor)
         Duration rest_duration = new Duration(start, end);
-        Rest current_rest = new Rest(rest_duration);
 
-        // add rest versions of each object to their respective chains
-        pitch_chain.add_to_chain(new Pitch());
-        volume_chain.add_to_chain(new Volume());
-        duration_chain.add_to_chain(rest_duration);
+        // only generate and add the rests if they last for a usable amount of time
+        if (rest_duration.getTime() > 0.0)
+        {
+            Rest current_rest = new Rest(rest_duration);
 
-        // add raw rest (since it's a subclass of Note) to the note chain
-        note_chain.add_to_chain(current_rest);
+            // add rest versions of each object to their respective chains
+            pitch_chain.add_to_chain(new Pitch());
+            volume_chain.add_to_chain(new Volume());
+            duration_chain.add_to_chain(rest_duration);
+
+            // add raw rest (since it's a subclass of Note) to the note chain
+            note_chain.add_to_chain(current_rest);
+        }
+
     }
 
     private void produce_song()
