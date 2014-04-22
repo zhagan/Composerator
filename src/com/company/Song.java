@@ -11,7 +11,7 @@ public class Song {
     private Duration_Chain duration_chain;
     private Pitch_Chain pitch_chain;
 
-    public Song(Pitch_Chain pc, Volume_Chain vc, Duration_Chain dc, Note_Chain nc)
+    public Song (Pitch_Chain pc, Volume_Chain vc, Duration_Chain dc, Note_Chain nc)
     {
         pitch_chain = pc;
         volume_chain = vc;

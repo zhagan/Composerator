@@ -13,10 +13,10 @@ public class Main {
         String filePath = "/Users/garrettparrish/Desktop/Dat_Dere.mid";
 
         // initialize MIDI file
-        MIDI_File datDere = new MIDI_File(filePath);
+        MIDI_File datDere_midi = new MIDI_File(filePath);
 
         // decode to chains
-        datDere.decode_to_chains();
+        Song datDere = datDere_midi.midi_to_song();
 
     }
 }
