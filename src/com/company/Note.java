@@ -15,6 +15,8 @@ public class Note implements Chainable {
     // volume
     private Volume volume;
 
+    private static String newline = "\n";
+
     public Note(Pitch p, Volume v, Duration d)
     {
         pitch = p;
@@ -22,12 +24,18 @@ public class Note implements Chainable {
         duration = d;
     }
 
+
     // default constructor
     public Note()
     {
         pitch = null;
         duration = null;
         volume = null;
+    }
+
+    public String desc()
+    {
+        return pitch.desc() + newline + volume.desc() + newline + duration.desc() + newline;
     }
 
 }

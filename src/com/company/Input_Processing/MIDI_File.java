@@ -16,9 +16,6 @@ public class MIDI_File {
     private static final int NOTE_OFF = 0x80;
     private static final String[] NOTE_CLASSES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
-    // variables used to map MIDI values to song objects
-    private static final double velocity_range = 127.0;
-
     private Sequence midiSequence;
 
     // constructor for a MIDI_File object
@@ -48,6 +45,7 @@ public class MIDI_File {
         // iterate through available tracks
         for (Track track :  midiSequence.getTracks())
         {
+
             // for labeling track number
             trackNumber++;
 
@@ -80,7 +78,7 @@ public class MIDI_File {
 
                 // if two events have the same tick then they occur at the same time
                 // if there are ticks where there are no events - those are represented as rests
-                System.out.print("@" + tick + " ");
+//                System.out.println("@" + tick + " ");
 
                 // Java's midi library encodes midi events as 'messages'
                 MidiMessage message = event.getMessage();
@@ -88,7 +86,7 @@ public class MIDI_File {
                 if (message instanceof ShortMessage)
                 {
                     ShortMessage sm = (ShortMessage) message;
-                    System.out.print("Channel: " + sm.getChannel() + " ");
+//                    System.out.println("Channel: " + sm.getChannel() + " ");
 
                     // the key pressed
                     int key = sm.getData1();
@@ -140,7 +138,7 @@ public class MIDI_File {
                         velocity_end = velocity;
 
                         // create a new pitch object
-                        Pitch current_pitch = new Pitch(noteName, octave);
+                        Pitch current_pitch = new Pitch(noteName, octave, key);
 
                         // create a new volume object
                         Volume current_volume = new Volume(velocity_start, velocity_end);
@@ -151,23 +149,28 @@ public class MIDI_File {
                         // encapsulate a new note object
                         Note current_note = new Note(current_pitch, current_volume, current_duration);
 
+                        System.out.println(current_note.desc());
+
                         add_current_values_to_chains(current_pitch, current_volume, current_duration, current_note);
                     }
                     else
                     {
-                        System.out.println("Other message: " + message.getClass());
+//                        System.out.println("Other command: " + sm.getCommand());
                     }
 
-                    System.out.println(note_state + noteName + octave + " key = " + key + " velocity: " + velocity);
+//                    System.out.println(note_state + noteName + octave + " key = " + key + " velocity: " + velocity);
 
                 }
                 else
                 {
-                    System.out.println("Other message: " + message.getClass());
+//                    System.out.println("Other message: " + message.getClass());
                 }
             }
             System.out.println();
         }
+
+        // export song to Markov Chain mixers
+        produce_song();
     }
 
     private Pitch_Chain pitch_chain;
@@ -177,7 +180,8 @@ public class MIDI_File {
 
     private void initialize_chains()
     {
-        duration_chain = new Duration_Chain();
+        System.out.println("Initializing Chains");
+        pitch_chain = new Pitch_Chain();
         volume_chain = new Volume_Chain();
         duration_chain = new Duration_Chain();
         note_chain = new Note_Chain();
@@ -188,8 +192,13 @@ public class MIDI_File {
         // add current values to chains
         pitch_chain.add_to_chain(p);
         volume_chain.add_to_chain(v);
-        duration_chain.add_to_chain(p);
+        duration_chain.add_to_chain(d);
         note_chain.add_to_chain(n);
+    }
+
+    private void produce_song()
+    {
+
     }
 
 }

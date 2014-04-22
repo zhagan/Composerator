@@ -12,4 +12,7 @@ public interface Chainable {
     // determine to that range etc.
 //    public void minimize();
 
+    // A method to return a description of the value
+    public String desc();
+
 }
