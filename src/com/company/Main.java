@@ -15,5 +15,8 @@ public class Main {
         // initialize MIDI file
         MIDI_File datDere = new MIDI_File(filePath);
 
+        // decode to chains
+        datDere.decode_to_chains();
+
     }
 }

@@ -4,11 +4,11 @@ package com.company;
  * Created by Garrett on 4/21/14.
  */
 
-public class Note_Chain implements Chainable {
+public class Note_Chain implements Chain {
 
     @Override
-    public void minimize() {
-        // TODO Auto-generated method stub
+    public void add_to_chain(Chainable obj)
+    {
 
     }
 

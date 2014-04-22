@@ -12,4 +12,8 @@ public class Rest extends Note {
 
     // define volume
 //	volume = new Volume
+    public Rest(){
+
+    }
+
 }

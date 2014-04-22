@@ -4,7 +4,7 @@ package com.company;
  * Created by Garrett on 4/21/14.
  */
 
-public class Volume {
+public class Volume implements Chainable {
 
     // level of the volume
     public int vol;
@@ -13,5 +13,10 @@ public class Volume {
     public double upperBound = 1.0;
     public double lowerBound = 0.0;
 
-    // Test Comment
+
+    public Volume(int start_velocity, int end_velocity)
+    {
+        // linearly map velocity to volume
+    }
+
 }

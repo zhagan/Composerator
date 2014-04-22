@@ -4,15 +4,31 @@ package com.company;
  * Created by Garrett on 4/21/14.
  */
 
-public class Note {
+public class Note implements Chainable {
 
     // a note's pitch
-    public Pitch pitch;
+    private Pitch pitch;
 
     // duration
-    public Duration duration;
+    private Duration duration;
 
     // volume
-    public Volume volume;
+    private Volume volume;
+
+    public Note(Pitch p, Volume v, Duration d)
+    {
+        pitch = p;
+        volume = v;
+        duration = d;
+    }
+
+    // default constructor
+    public Note()
+    {
+        pitch = null;
+        duration = null;
+        volume = null;
+    }
 
 }
+

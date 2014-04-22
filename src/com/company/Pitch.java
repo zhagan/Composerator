@@ -3,7 +3,7 @@ package com.company;
 /*
  * Created by Garrett on 4/21/14.
  */
-public class Pitch {
+public class Pitch implements Chainable {
 
     // i.e. "C" or "B"
     public String noteClass;
@@ -17,5 +17,14 @@ public class Pitch {
     // true/false if flat or sharp
     public boolean flat;
     public boolean sharp;
+
+    // Pitch constructor
+    public Pitch (String note, int oct)
+    {
+        octave = oct;
+
+        noteClass = note;
+    }
+
 
 }

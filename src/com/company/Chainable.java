@@ -10,6 +10,6 @@ public interface Chainable {
     // the specific type of chain. For example, if volumes from 0 to 0.5 were
     // used exclusively, it would cap the range of values to probalistically
     // determine to that range etc.
-    public void minimize();
+//    public void minimize();
 
 }

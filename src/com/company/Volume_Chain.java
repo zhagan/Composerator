@@ -4,7 +4,7 @@ package com.company;
  * Created by Garrett on 4/21/14.
  */
 
-public class Volume_Chain implements Chainable {
+public class Volume_Chain implements Chain {
 
     // constructor
     public Volume_Chain() {
@@ -13,8 +13,8 @@ public class Volume_Chain implements Chainable {
     }
 
     @Override
-    public void minimize() {
-        // TODO Auto-generated method stub
+    public void add_to_chain(Chainable obj)
+    {
 
     }
 
