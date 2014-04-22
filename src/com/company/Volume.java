@@ -1,8 +1,9 @@
 package com.company;
 
-/**
- * Created by garrettparrish on 4/21/14.
+/*
+ * Created by Garrett on 4/21/14.
  */
+
 public class Volume {
 
     // level of the volume
