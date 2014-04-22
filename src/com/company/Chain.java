@@ -8,4 +8,5 @@ public interface Chain {
 
     public void add_to_chain(Chainable obj);
 
+    public void print_chain();
 }

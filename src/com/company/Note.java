@@ -38,5 +38,25 @@ public class Note implements Chainable {
         return pitch.desc() + newline + volume.desc() + newline + duration.desc() + newline;
     }
 
+    // getter methods for instance variables
+    public Pitch getPitch()
+    {
+        return pitch;
+    }
+
+    public Duration getDuration()
+    {
+        return duration;
+    }
+
+    public Volume getVolume()
+    {
+        return volume;
+    }
+
+
+
+
 }
+
 

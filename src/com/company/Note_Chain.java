@@ -17,13 +17,22 @@ public class Note_Chain implements Chain {
     }
 
 
-//    @Override
+    @Override
     public void add_to_chain(Chainable obj)
     {
         notes.add((Note) obj);
     }
 
-    // array of notes
-    //private Note[];
+    @Override
+    public void print_chain()
+    {
+        System.out.print("Notes: [");
+        for (Note n : notes)
+        {
+            System.out.print(" (" + n.getPitch().getPitch_class() + n.getPitch().getOctave() + ", " +
+                    String.format("%1$,.2f", n.getVolume().getVol()) + ", " + String.format("%1$,.2f",n.getDuration().getTime()) + "s)");
+        }
+        System.out.println("]");
+    }
 
 }

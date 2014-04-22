@@ -16,11 +16,21 @@ public class Duration_Chain implements Chain {
 
     }
 
-//    @Override
+    @Override
     public void add_to_chain(Chainable obj)
     {
         durations.add((Duration) obj);
     }
 
+    @Override
+    public void print_chain()
+    {
+        System.out.print("Durations: [");
+        for (Duration d : durations)
+        {
+            System.out.print(" " + String.format("%1$,.2f", d.getTime()) + " ");
+        }
+        System.out.println("]");
+    }
 
 }

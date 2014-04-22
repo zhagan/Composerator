@@ -151,7 +151,12 @@ public class MIDI_File {
 
                         System.out.println(current_note.desc());
 
-                        add_current_values_to_chains(current_pitch, current_volume, current_duration, current_note);
+                        // add current values to chains
+                        pitch_chain.add_to_chain(current_pitch);
+                        volume_chain.add_to_chain(current_volume);
+                        duration_chain.add_to_chain(current_duration);
+                        note_chain.add_to_chain(current_note);
+
                     }
                     else
                     {
@@ -163,7 +168,7 @@ public class MIDI_File {
                 }
                 else
                 {
-//                    System.out.println("Other message: " + message.getClass());
+                    System.out.println("Other message: " + message.getClass());
                 }
             }
             System.out.println();
@@ -180,7 +185,6 @@ public class MIDI_File {
 
     private void initialize_chains()
     {
-        System.out.println("Initializing Chains");
         pitch_chain = new Pitch_Chain();
         volume_chain = new Volume_Chain();
         duration_chain = new Duration_Chain();
@@ -198,7 +202,10 @@ public class MIDI_File {
 
     private void produce_song()
     {
-
+        pitch_chain.print_chain();
+        volume_chain.print_chain();
+        duration_chain.print_chain();
+        note_chain.print_chain();
     }
 
 }

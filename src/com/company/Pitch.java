@@ -6,7 +6,7 @@ package com.company;
 public class Pitch implements Chainable {
 
     // i.e. "C" or "B"
-    private String noteClass;
+    private String pitch_class;
 
     // midi identifier
     private int midi_id;
@@ -25,13 +25,27 @@ public class Pitch implements Chainable {
     public Pitch (String note, int oct, int id)
     {
         octave = oct;
-        noteClass = note;
+        pitch_class = note;
         midi_id = id;
     }
 
+    // description method to print
+    @Override
     public String desc()
     {
-        return "Pitch: " + noteClass + octave + " ";
+        return "Pitch: " + pitch_class + octave + " ";
     }
+
+    // getter methods for instance variables
+    public String getPitch_class()
+    {
+        return pitch_class;
+    }
+
+    public int getOctave()
+    {
+        return octave;
+    }
+
 
 }

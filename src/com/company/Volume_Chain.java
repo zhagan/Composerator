@@ -17,10 +17,21 @@ public class Volume_Chain implements Chain {
 
     }
 
-//    @Override
+    @Override
     public void add_to_chain(Chainable obj)
     {
         volumes.add((Volume) obj);
+    }
+
+    @Override
+    public void print_chain()
+    {
+        System.out.print("Volumes: [");
+        for (Volume v : volumes)
+        {
+            System.out.print(" " + String.format("%1$,.2f", v.getVol()) + " ");
+        }
+        System.out.println("]");
     }
 
 }
