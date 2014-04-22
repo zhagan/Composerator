@@ -1,8 +1,11 @@
-package com.company;
+package com.company.Chains;
 
 /*
  * Created by Garrett on 4/21/14.
  */
+
+import com.company.Chainables.Chainable;
+import com.company.Chainables.Note;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,7 @@ public class Note_Chain implements Chain {
         for (Note n : notes)
         {
             System.out.print(" (" + n.getPitch().getPitch_class() + n.getPitch().getOctave() + ", " +
-                    String.format("%1$,.2f", n.getVolume().getVol()) + ", " + String.format("%1$,.2f",n.getDuration().getTime()) + "s)");
+                    String.format("%1$,.2f", n.getVolume().getVol()) + ", " + String.format("%1$,.2f", n.getDuration().getTime()) + "s)");
         }
         System.out.println("]");
     }

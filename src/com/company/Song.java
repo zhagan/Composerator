@@ -4,6 +4,11 @@ package com.company;
  * Created by Garrett on 4/21/14.
  */
 
+import com.company.Chains.Duration_Chain;
+import com.company.Chains.Note_Chain;
+import com.company.Chains.Pitch_Chain;
+import com.company.Chains.Volume_Chain;
+
 public class Song {
 
     private Note_Chain note_chain;

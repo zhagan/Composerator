@@ -1,8 +1,11 @@
-package com.company;
+package com.company.Chains;
 
 /*
  * Created by Garrett on 4/21/14.
  */
+
+import com.company.Chainables.Chainable;
+import com.company.Chainables.Duration;
 
 import java.util.ArrayList;
 import java.util.List;

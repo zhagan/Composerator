@@ -5,6 +5,11 @@ package com.company.Input_Processing;
  */
 
 import com.company.*;
+import com.company.Chainables.*;
+import com.company.Chains.Duration_Chain;
+import com.company.Chains.Note_Chain;
+import com.company.Chains.Pitch_Chain;
+import com.company.Chains.Volume_Chain;
 
 import java.io.*;
 import javax.sound.midi.*;

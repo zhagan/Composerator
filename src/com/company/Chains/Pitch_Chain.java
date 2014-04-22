@@ -1,4 +1,7 @@
-package com.company;
+package com.company.Chains;
+
+import com.company.Chainables.Chainable;
+import com.company.Chainables.Pitch;
 
 import java.util.*;
 

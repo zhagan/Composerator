@@ -4,6 +4,8 @@ package com.company;
  * Created by Garrett on 4/21/14.
  */
 
+import com.company.Chainables.Chainable;
+
 public class MarkovList {
 
     public Chainable[] chains;
