@@ -16,12 +16,6 @@ public class MIDI_File {
     private static final int NOTE_OFF = 0x80;
     private static final String[] NOTE_CLASSES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
-    // chains of chainable objects representing the song
-    private Pitch_Chain pitch_chain;
-    private Volume_Chain volume_chain;
-    private Duration_Chain duration_chain;
-    private Note_Chain note_chain;
-
     // midi sequence
     private Sequence midiSequence;
 
@@ -39,14 +33,14 @@ public class MIDI_File {
         }
     }
 
-    // decodes the midi file to a song object -- returns song object
-    public Song midi_to_song()
+    // decodes the midi file to a song object
+    public Song to_song()
     {
         // initialize all the chain variables
-        pitch_chain = new Pitch_Chain();
-        volume_chain = new Volume_Chain();
-        duration_chain = new Duration_Chain();
-        note_chain = new Note_Chain();
+        Pitch_Chain pitch_chain = new Pitch_Chain();
+        Volume_Chain volume_chain = new Volume_Chain();
+        Duration_Chain duration_chain = new Duration_Chain();
+        Note_Chain note_chain = new Note_Chain();
 
         // iterate through MIDI tracks
         int trackNumber = 0;

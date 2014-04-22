@@ -16,7 +16,7 @@ public class Main {
         MIDI_File datDere_midi = new MIDI_File(filePath);
 
         // decode to chains
-        Song datDere = datDere_midi.midi_to_song();
+        Song datDere = datDere_midi.to_song();
 
     }
 }
