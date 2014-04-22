@@ -54,8 +54,21 @@ public class Note implements Chainable {
         return volume;
     }
 
+    // setter methods (mainly used by the rest subclass)
+    public void setPitch(Pitch p)
+    {
+        pitch = p;
+    }
 
+    public void setVolume(Volume v)
+    {
+        volume = v;
+    }
 
+    public void setDuration(Duration d)
+    {
+        duration = d;
+    }
 
 }
 

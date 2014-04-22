@@ -16,6 +16,13 @@ public class Volume implements Chainable {
     // Java MIDI library's double range of velocities
     private static final double velocity_range = 127.0;
 
+    // Default constructor (for rests)
+    public Volume()
+    {
+        vol = 0.0;
+    }
+
+    // Standard constructor (for notes w/ input velocities)
     public Volume(int start_velocity, int end_velocity)
     {
         // no end velocity -- map just starting velocity
@@ -26,7 +33,7 @@ public class Volume implements Chainable {
         }
         else
         {
-            System.out.println("End velocity wasn't zero.");
+            System.out.println("REST");
             // add algorithm to average velocities if need be
         }
         // linearly map velocity to volume

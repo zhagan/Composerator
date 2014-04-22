@@ -59,8 +59,12 @@ public class MIDI_File {
             boolean note_buffer = false;
 
             // starting and ending ticks of a MIDI note
-            long tick_start = 0;
-            long tick_end = 0;
+            long note_tick_start = 0;
+            long note_tick_end = 0;
+
+            // starting and ending ticks of a MIDI rest
+            long rest_tick_start = 0;
+            long rest_tick_end = 0;
 
             // starting and ending velocities of MIDI note
             int velocity_start = 0;
@@ -126,16 +130,20 @@ public class MIDI_File {
                     {
                         // NOTE HAS BEGUN TO BE REGISTERED
                         note_state = "Note on, ";
-                        tick_start = tick;
+                        note_tick_start = tick;
                         velocity_start = velocity;
+                        rest_tick_end = tick;
+
+                        generate_rest(rest_tick_start, rest_tick_end);
                     }
                     else if (sm.getCommand() == NOTE_OFF)
                     {
                         // NOTE HAS BEEN FULLY REGISTERED
 
                         note_state = "Note off, ";
-                        tick_end = tick;
+                        note_tick_end = tick;
                         velocity_end = velocity;
+                        rest_tick_start = tick;
 
                         // create a new pitch object
                         Pitch current_pitch = new Pitch(noteName, octave, key);
@@ -144,7 +152,7 @@ public class MIDI_File {
                         Volume current_volume = new Volume(velocity_start, velocity_end);
 
                         // create a new duration object
-                        Duration current_duration = new Duration(tick_start, tick_end);
+                        Duration current_duration = new Duration(note_tick_start, note_tick_end);
 
                         // encapsulate a new note object
                         Note current_note = new Note(current_pitch, current_volume, current_duration);
@@ -189,6 +197,9 @@ public class MIDI_File {
         volume_chain = new Volume_Chain();
         duration_chain = new Duration_Chain();
         note_chain = new Note_Chain();
+
+        // REST VALUES FOR INSERTION INTO CHAINS
+
     }
 
     private void add_current_values_to_chains(Pitch p, Volume v, Duration d, Note n)
@@ -198,6 +209,22 @@ public class MIDI_File {
         volume_chain.add_to_chain(v);
         duration_chain.add_to_chain(d);
         note_chain.add_to_chain(n);
+    }
+
+    private void generate_rest(long start, long end)
+    {
+        // initialize new rest with just a duration (default values of
+        // pitch and volume are encapsulated in the rest constructor)
+        Duration rest_duration = new Duration(start, end);
+        Rest current_rest = new Rest(rest_duration);
+
+        // add rest versions of each object to their respective chains
+        pitch_chain.add_to_chain(new Pitch());
+        volume_chain.add_to_chain(new Volume());
+        duration_chain.add_to_chain(rest_duration);
+
+        // add raw rest (since it's a subclass of Note) to the note chain
+        note_chain.add_to_chain(current_rest);
     }
 
     private void produce_song()

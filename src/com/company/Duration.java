@@ -23,6 +23,7 @@ public class Duration implements Chainable {
     // pulses per second (1600 @ 100 bpm)
     private static final double tick_rate = (tempo / 60.0) * PPQN;
 
+    // main constructor that takes starting and ending tick values
     public Duration(long tick1, long tick2)
     {
         tick_length = tick2 - tick1;

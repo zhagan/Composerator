@@ -21,7 +21,16 @@ public class Pitch implements Chainable {
     public boolean flat;
     public boolean sharp;
 
-    // Pitch constructor
+    // Default constructor for rest pitches
+    public Pitch()
+    {
+        // rest values
+        pitch_class = "R";
+        octave = 0;
+        midi_id = 128;
+    }
+
+    // Pitch note constructor
     public Pitch (String note, int oct, int id)
     {
         octave = oct;
