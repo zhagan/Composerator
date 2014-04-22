@@ -1,6 +1,5 @@
 package com.company;
 
-import com.company.Input_Processing.Audio_File;
 import com.company.Input_Processing.MIDI_File;
 
 public class Main {
@@ -15,8 +14,9 @@ public class Main {
         // initialize MIDI file
         MIDI_File datDere_midi = new MIDI_File(filePath);
 
-        // decode to chains
+        // decode midi file to song
         Song datDere = datDere_midi.to_song();
 
+        // pass song to encoder (use Markov chains)
     }
 }
