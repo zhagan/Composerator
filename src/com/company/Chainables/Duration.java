@@ -38,9 +38,26 @@ public class Duration implements Chainable {
         return time_s;
     }
 
+    public long getTick_length()
+    {
+        return tick_length;
+    }
+
     public String desc()
     {
         return "Time: " + Double.toString(time_s) + "s ";
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("%1$,.2f", time_s);
+    }
+
+    // get class name
+    public String classToString()
+    {
+        return "Duration";
     }
 
 }

@@ -44,9 +44,10 @@ public class Volume implements Chainable {
         return vol;
     }
 
-    public String desc()
-    {
-        return "Vol: " + Double.toString(vol) + " ";
-    }
+    @Override
+    public String toString() { return String.format("%1$,.2f", vol); }
+
+    // return class name
+    public String classToString() { return "Volume"; }
 
 }

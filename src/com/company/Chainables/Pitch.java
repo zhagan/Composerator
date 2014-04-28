@@ -62,11 +62,10 @@ public class Pitch implements Chainable {
     }
 
     // description method to print
-    @Override
-    public String desc()
-    {
-        return "Pitch: " + pitch_class + octave + " ";
-    }
+    public String toString() { return pitch_class + octave; }
+
+    // get class name
+    public String classToString() { return "Pitch"; }
 
     // getter methods for instance variables
     public String getPitch_class()
@@ -88,4 +87,5 @@ public class Pitch implements Chainable {
     {
         return sharp;
     }
+
 }
