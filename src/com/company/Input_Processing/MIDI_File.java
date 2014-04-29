@@ -186,8 +186,8 @@ public class MIDI_File {
             System.out.println();
         }
 
-        // return the compiled song (also print song)
-        return new Song(pitch_chain, volume_chain, duration_chain, note_chain);
+        // return the compiled song (also print song) (pass in timing resolution for output reasons)
+        return new Song(pitch_chain, volume_chain, duration_chain, note_chain, timingResolution);
     }
 
     // getter method for timing resolution

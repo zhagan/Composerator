@@ -16,6 +16,8 @@ public class Volume extends Chainable {
     // Java MIDI library's double range of velocities
     private static final double velocity_range = 127.0;
 
+    private int midi_velocity;
+
     // Default constructor (for rests)
     public Volume()
     {
@@ -30,6 +32,9 @@ public class Volume extends Chainable {
         {
             // Map 0.0 - 127.0 to 0.0 to 1.0
             vol = (upperBound - lowerBound) * (start_velocity / velocity_range);
+
+            // set midi velocity to input (used for decoding afterward)
+            midi_velocity = start_velocity;
         }
         else
         {
@@ -55,5 +60,12 @@ public class Volume extends Chainable {
     {
         return 0;
     }
+
+    // return velocity
+    public int getMidi_velocity ()
+    {
+        return midi_velocity;
+    }
+
 
 }

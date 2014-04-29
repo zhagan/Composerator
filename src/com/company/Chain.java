@@ -80,4 +80,11 @@ public class Chain<T extends Chainable> {
         }
         System.out.println("]");
     }
+
+    // returns list of objects (used mainly for decoding)
+    public ArrayList<T> getList ()
+    {
+        return list;
+    }
+
 }

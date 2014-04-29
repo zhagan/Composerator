@@ -88,6 +88,11 @@ public class Pitch extends Chainable {
         return sharp;
     }
 
+    public int getMidi_id()
+    {
+        return midi_id;
+    }
+
     public int compareTo(Chainable p)
     {
         return 0;

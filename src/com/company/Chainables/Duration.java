@@ -26,7 +26,7 @@ public class Duration extends Chainable {
     private final double tick_rate;
 
     // main constructor that takes starting and ending tick values
-    public Duration(long tick1, long tick2, double ppqn)
+    public Duration(long tick1, long tick2, float ppqn)
     {
         // set timebase variables according to input
         PPQN = ppqn;

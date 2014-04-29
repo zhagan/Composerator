@@ -6,19 +6,35 @@ package com.company;
 
 import com.company.Input_Processing.MIDI_File;
 
+import javax.print.DocFlavor;
+import javax.sound.midi.*;
+import java.io.*;
+import java.nio.ByteBuffer;
+import com.company.Chainables.*;
+import java.util.ArrayList;
+
 public class Song {
+
+    private static final String outputDirectory = "/Users/garrettparrish/Documents/Garrett/Projects/Composerator/Composerator";
+
+    // current midi track
+    Track current_track;
 
     private Chain note_chain;
     private Chain volume_chain;
     private Chain duration_chain;
     private Chain pitch_chain;
 
-    public Song (Chain pc, Chain vc, Chain dc, Chain nc)
+    // pulses per quarter note
+    private float timebase;
+
+    public Song (Chain pc, Chain vc, Chain dc, Chain nc, float ppqn)
     {
         pitch_chain = pc;
         volume_chain = vc;
         duration_chain = dc;
         note_chain = nc;
+        timebase = ppqn;
 
         print_song();
     }
@@ -31,9 +47,13 @@ public class Song {
         note_chain.print_chain();
     }
 
-    // converts the song back to a midi file
-
     /*
+        Information on MIDI file formats adapted from:
+        - http://www.fileformat.info/format/midi/corion.htm
+        - http://www.midi.org/techspecs/midimessages.php
+        - http://www.digitalpreservation.gov/formats/fdd/fdd000119.shtml
+        - http://docs.oracle.com/javase/8/docs/api/javax/sound/midi/spi/MidiFileWriter.html
+        - http://www.automatic-pilot.com/midifile.html
 
         GENERAL FORM OF A MIDI FILE
 
@@ -45,14 +65,173 @@ public class Song {
             - Performance events (notes, controller changes etc.)
         - Track footer (4 constant bytes)
 
+        TIMEBASES
 
-        delta's and timebases: notes aren't specified by duration but by on-off time
+        - tempo of track is expressed in microseconds per quarter note
+            - manually choose a multiplier: 16
+                - longest note: 64 ticks
+                - shortest note: 1 tick
+            - set the timebase fairly low (fewer bits to represent each value)
+
+        DELTAS
+
+        - expressed in number of ticks
+        - "delta = 0" means "do this as close as possible to previous event"
+        - rest: turn note off - wait for N clicks - turn next note on again
+        - have three notes playing at same time: turn 1st off at 16, then turn others off at 0 (since it's
+          measured with respect to the last note)
+
+        EVENT FORMAT
+
+        0x90 --> (byte representing note) --> (byte representing strike velocity)
 
      */
 
+    private static final int START = 0;
+    private static final int NOTE_ON = 0x90;
+    private static final int NOTE_OFF = 0x80;
+    private static final int SET_TEMPO = 0x51;
+    private static final int SET_TRACK_NAME = 0x03;
+    private static final int SET_END_OF_TRACK = 0x2F;
+
+    // note classes array list
+    private static final String[] NOTE_CLASSES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+
+    // tick counter for going through song
+    int current_tick = START;
+
+    // desired output tempo (maybe have the user specify this) ?
+    float output_tempo = 120;
+
+    // converts the song back to a midi file
     public MIDI_File toMidi()
     {
-        return new MIDI_File();
+        try
+        {
+            // new sequence with song's num of ticks per beat  ****
+            Sequence s = new Sequence(javax.sound.midi.Sequence.PPQ, (int) timebase);
+
+            // create first track
+            Track t = s.createTrack();
+
+            current_track = t;
+
+            ////////////////////////////////////////////////////////
+            /////////////////////// HEADER /////////////////////////
+            ////////////////////////////////////////////////////////
+
+            // general MIDI configuration
+            // have to do (byte) casts because Java has unsigned int problems
+            byte[] b = {(byte)0xF0, 0x7E, 0x7F, 0x09, 0x01, (byte)0xF7};
+            SysexMessage sm = new SysexMessage();
+            sm.setMessage(b, 6);
+
+            MidiEvent me = new MidiEvent(sm,(long)0);
+            current_track.add(me);
+
+            // calculate tempo in bytes
+            float micro_per_minute = 60000000;
+            int micro_per_pulse = (int)(micro_per_minute / output_tempo);
+            byte[] bytes = ByteBuffer.allocate(4).putInt(micro_per_pulse).array();
+
+            // three bytes represent number of microseconds per pulse
+            byte[] bt = {bytes[1], bytes[2], bytes[3]};
+            writeMetaEvent(SET_TEMPO, bt, 3, START);
+
+            // set track name (meta event)
+            String TrackName = "Cannonball";
+            writeMetaEvent(SET_TRACK_NAME, TrackName.getBytes(), TrackName.length(), START);
+
+            // set omni on
+            writeShortEvent(0xB0, 0x7D, 0x00, START);
+
+            // set poly on
+            writeShortEvent(0xB0, 0x7F, 0x00, START);
+
+            // set instrument to Piano
+            writeShortEvent(0xC0, 0x00, 0x00, START);
+
+            ////////////////////////////////////////////////////////
+            //////////////////////// BODY //////////////////////////
+            ////////////////////////////////////////////////////////
+
+            boolean ON = true;
+            boolean OFF = false;
+
+            // iterate through note chain and call note events on each note
+            for (Object c : note_chain.getList())
+            {
+                // cast object to Note class (since it comes from generic type)
+                noteEvent((Note) c);
+            }
+
+            ////////////////////////////////////////////////////////
+            ////////////////////// FOOTER //////////////////////////
+            ////////////////////////////////////////////////////////
+
+            // set end of track
+            byte[] bet = {}; // empty array
+            writeMetaEvent(SET_END_OF_TRACK, bet, 0, 140);
+
+            // write midi sequence to file
+            File f = new File("midifile.mid");
+            MidiSystem.write(s,1,f);
+
+        } catch(Exception e) {
+            System.out.println("Exception caught " + e.toString());
+        }
+
+      // return a new MIDI file object with the written file as its constructor argument
+      return new MIDI_File(outputDirectory + "/midifile.mid");
     }
 
+    // encapsulation method to map note to midi event
+    private void noteEvent(Note n)
+    {
+                // maps string to a byte value
+        Pitch p = n.getPitch();
+        Volume v = n.getVolume();
+        Duration d = n.getDuration();
+
+        int ending_tick = current_tick + (int) d.getTick_length();
+        int note = p.getMidi_id() - 1;
+        int vel = v.getMidi_velocity();
+        writeShortEvent(NOTE_ON, note, vel, current_tick);
+        writeShortEvent(NOTE_OFF, note, vel, ending_tick);
+
+        // set current tick to latest tick val
+        current_tick = ending_tick;
+    }
+
+    // write a meta event to current track at certain tick
+    private void writeMetaEvent(int id, byte[] val, int b3, int tick)
+    {
+        MetaMessage mt = new MetaMessage();
+        try {
+            mt.setMessage(id, val, b3);
+        } catch (InvalidMidiDataException e)
+        {
+            System.out.println(e.toString());
+        }
+        MidiEvent me = new MidiEvent(mt, (long)tick);
+        current_track.add(me);
+    }
+
+    // write a short message to current track at certain tick
+    private void writeShortEvent(int id, int val, int vel, int tick)
+    {
+        ShortMessage sm = new ShortMessage();
+        try {
+            sm.setMessage(id, val, vel);
+        } catch (InvalidMidiDataException e)
+        {
+            System.out.println(e.toString());
+        }
+        MidiEvent me = new MidiEvent(sm, (long)tick);
+        current_track.add(me);
+    }
+
+
 }
+
+
