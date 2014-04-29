@@ -6,7 +6,7 @@ package com.company.Chainables;
 
 import com.company.Chainables.Chainable;
 
-public class Duration implements Chainable {
+public class Duration extends Chainable {
 
     // length of the duration
     private double time_s;
@@ -55,9 +55,14 @@ public class Duration implements Chainable {
     }
 
     // get class name
-    public String classToString()
+    public static String classToString()
     {
         return "Duration";
     }
 
+    // TODO
+    public int compareTo(Chainable d)
+    {
+        return 0;
+    }
 }

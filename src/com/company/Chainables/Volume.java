@@ -4,7 +4,7 @@ package com.company.Chainables;
  * Created by Garrett on 4/21/14.
  */
 
-public class Volume implements Chainable {
+public class Volume extends Chainable {
 
     // level of the volume
     public double vol;
@@ -48,6 +48,12 @@ public class Volume implements Chainable {
     public String toString() { return String.format("%1$,.2f", vol); }
 
     // return class name
-    public String classToString() { return "Volume"; }
+    public static String classToString() { return "Volume"; }
+
+    // TODO
+    public int compareTo(Chainable v)
+    {
+        return 0;
+    }
 
 }

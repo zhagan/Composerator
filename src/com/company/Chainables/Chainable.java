@@ -4,7 +4,7 @@ package com.company.Chainables;
  * Created by Garrett on 4/21/14.
  */
 
-public interface Chainable {
+public abstract class Chainable implements Comparable<Chainable> {
 
     // Method to determine the range, inc, and order of the chain based on
     // the specific type of chain. For example, if volumes from 0 to 0.5 were
@@ -13,6 +13,13 @@ public interface Chainable {
     // public void minimize();
 
     // A method to return a description of the value
-    public String classToString();
+    // Dummy method to be overriden
+    // NEED TO CAST TO SUBCLASS TO USE OVERIDDEN METHODS
+    public static String classToString()
+    {
+        return "";
+    }
+
 
 }
+

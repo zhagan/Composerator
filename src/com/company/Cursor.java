@@ -6,9 +6,8 @@ package com.company;
 
 import com.company.Chain;
 import com.company.Chainables.*;
-import com.company.Chains.Cursor;
 
-public class Cursor implements Comparable<T>
+public class Cursor implements Comparable<Cursor>
 {
     // Instance vars
     private int len;
@@ -67,8 +66,9 @@ public class Cursor implements Comparable<T>
     }
 
     // implementing compare method. assumes same length
-    public int compareTo(Cursor c)
+    @Override public int compareTo(Cursor c)
     {
+
         // extra precaution in case lengths differ
         int min_len = Math.min(len, c.getLen());
 
@@ -85,5 +85,4 @@ public class Cursor implements Comparable<T>
         }
         return 0;
     }
-
 }

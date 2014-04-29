@@ -6,10 +6,6 @@ package com.company.Input_Processing;
 
 import com.company.*;
 import com.company.Chainables.*;
-import com.company.Chains.Duration_Chain;
-import com.company.Chains.Note_Chain;
-import com.company.Chains.Pitch_Chain;
-import com.company.Chains.Volume_Chain;
 
 import java.io.*;
 import javax.sound.midi.*;
@@ -42,10 +38,10 @@ public class MIDI_File {
     public Song to_song()
     {
         // initialize all the chain variables
-        Pitch_Chain pitch_chain = new Pitch_Chain();
-        Volume_Chain volume_chain = new Volume_Chain();
-        Duration_Chain duration_chain = new Duration_Chain();
-        Note_Chain note_chain = new Note_Chain();
+        Chain pitch_chain = new Chain<Pitch>();
+        Chain volume_chain = new Chain<Volume>();
+        Chain duration_chain = new Chain<Duration>();
+        Chain note_chain = new Chain<Note>();
 
         // iterate through MIDI tracks
         int trackNumber = 0;
@@ -154,7 +150,7 @@ public class MIDI_File {
                         Note current_note = new Note(current_pitch, current_volume, current_duration);
 
                         // print out current_note description
-                        System.out.println(current_note.desc());
+                        System.out.println(current_note.toString());
 
                         // add current values to chains
                         pitch_chain.add_to_chain(current_pitch);

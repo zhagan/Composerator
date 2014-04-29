@@ -3,7 +3,7 @@ package com.company.Chainables;
 /*
  * Created by Garrett on 4/21/14.
  */
-public class Pitch implements Chainable {
+public class Pitch extends Chainable {
 
     // i.e. "C" or "B"
     private String pitch_class;
@@ -65,7 +65,7 @@ public class Pitch implements Chainable {
     public String toString() { return pitch_class + octave; }
 
     // get class name
-    public String classToString() { return "Pitch"; }
+    public static String classToString() { return "Pitch"; }
 
     // getter methods for instance variables
     public String getPitch_class()
@@ -86,6 +86,11 @@ public class Pitch implements Chainable {
     public boolean getSharp()
     {
         return sharp;
+    }
+
+    public int compareTo(Chainable p)
+    {
+        return 0;
     }
 
 }

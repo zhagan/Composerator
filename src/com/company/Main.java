@@ -9,7 +9,7 @@ public class Main {
        System.out.println("Welcome to Composerator.");
 
         // Upload audio file
-        String filePath = "/Users/garrettparrish/Desktop/Dat_Dere.mid";
+        String filePath = "/Users/powderski11/Downloads/Dat_Dere.mid";
 
         // initialize MIDI file
         MIDI_File datDere_midi = new MIDI_File(filePath);

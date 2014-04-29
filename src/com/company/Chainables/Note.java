@@ -4,7 +4,7 @@ package com.company.Chainables;
  * Created by Garrett on 4/21/14.
  */
 
-public class Note implements Chainable {
+public class Note extends Chainable {
 
     // a note's pitch
     private Pitch pitch;
@@ -31,11 +31,6 @@ public class Note implements Chainable {
         pitch = null;
         duration = null;
         volume = null;
-    }
-
-    public String desc()
-    {
-        return pitch.desc() + newline + volume.desc() + newline + duration.desc() + newline;
     }
 
     // getter methods for instance variables
@@ -70,6 +65,23 @@ public class Note implements Chainable {
         duration = d;
     }
 
+    // get class name
+    public static String classToString()
+    {
+        return "Note";
+    }
+
+    @Override
+    public String toString()
+    {
+        return "(" + pitch.toString() + ", " + duration.toString() + ", " + volume.toString() + ")";
+    }
+
+    // TODO
+    public int compareTo(Chainable n)
+    {
+        return 0;
+    }
 }
 
 
