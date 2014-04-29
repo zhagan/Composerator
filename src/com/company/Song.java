@@ -136,7 +136,7 @@ public class Song {
 
             // three bytes represent number of microseconds per pulse
             byte[] bt = {bytes[1], bytes[2], bytes[3]};
-            writeMetaEvent(SET_TEMPO, bt, 3, START);
+            writeMetaEvent(SET_TEMPO, bt, 3, START_TICK);
 
             // set track name (meta event)
             String TrackName = "Cannonball";
