@@ -1,4 +1,4 @@
-package com.company.Input_Processing;
+package com.company;
 
 /*
  * Created by Garrett on 4/22/14.
@@ -6,16 +6,16 @@ package com.company.Input_Processing;
 
 import com.company.*;
 import com.company.Chainables.*;
-import javax.sound.midi.MidiFileFormat;
 import java.io.*;
 import javax.sound.midi.*;
 
-public class MIDI_File {
+public class MidiFile {
 
     // variable used to decode the midi file
     private static final int NOTE_ON = 0x90;
     private static final int NOTE_OFF = 0x80;
     private static final String[] NOTE_CLASSES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+    private static final int NOTES_PER_OCTAVE = 12;
 
     // midi sequence
     private Sequence midiSequence;
@@ -24,28 +24,20 @@ public class MIDI_File {
     private float timingResolution;
 
     // default constructor
-    public MIDI_File ()
+    public MidiFile()
     {
         midiSequence = null;
     }
 
-    // constructor for a MIDI_File object
-    public MIDI_File (String path)
+    // constructor for a MidiFile object
+    public MidiFile(Sequence s)
     {
         // Import sequence from file path (catch exceptions)
-        midiSequence = null;
-        try {
-            // set sequence
-            midiSequence = MidiSystem.getSequence(new File(path));
+        // set sequence
+        midiSequence = s;
 
-            // extract timing resolution
-            timingResolution = (float) midiSequence.getResolution();
-
-        } catch (IOException e) {
-            System.out.println(e.toString());
-        } catch (InvalidMidiDataException e) {
-            System.out.println(e.toString());
-        }
+        // extract timing resolution
+        timingResolution = (float) midiSequence.getResolution();
     }
 
     // decodes the midi file to a song object
@@ -105,10 +97,10 @@ public class MIDI_File {
                     int key = sm.getData1();
 
                     // note's octave
-                    int octave = (key / 12) - 1;
+                    int octave = (key / NOTES_PER_OCTAVE) - 1;
 
                     // note class
-                    int note = key % 12;
+                    int note = key % NOTES_PER_OCTAVE;
                     String noteName = NOTE_CLASSES[note];
 
                     // note's velocity (eventually mapped to volume)
@@ -158,7 +150,7 @@ public class MIDI_File {
                         // create a new volume object
                         Volume current_volume = new Volume(velocity_start, velocity_end);
 
-                        // create a new duration object
+                        // create a new duration object (passing timing resolution)
                         Duration current_duration = new Duration(note_tick_start, note_tick_end, timingResolution);
 
                         // encapsulate a new note object
@@ -196,4 +188,21 @@ public class MIDI_File {
         return timingResolution;
     }
 
+    // creates an actual midi file and writes it to the directory specified
+    public void writeToFilePath(String filePath)
+    {
+        // write midi sequence to file
+        File f = new File(filePath);
+        try
+        {
+            MidiSystem.write(midiSequence, 1, f);
+        }
+        // file wasn't successfully written
+        catch (IOException e)
+        {
+            System.out.println(e.toString());
+        }
+    }
+
 }
+

@@ -1,28 +1,55 @@
 package com.company;
 
-import com.company.Input_Processing.MIDI_File;
+import com.company.UI.FileChooser;
+import com.company.UI.UIFrame;
+
+import javax.sound.midi.*;
+import java.io.File;
 
 public class Main {
 
     public static void main(String[] args) {
 
-       System.out.println("Welcome to Composerator.");
+        System.out.println("Welcome to Composerator.");
 
-        // Upload audio file
-        String filePath = "/Users/garrettparrish/Desktop/Dat_Dere.mid";
+        // SOME UI ATTEMPTS
+        // create a file chooser
+//        FileChooser chooser = new FileChooser();
+//        chooser.main(null);
+//        UIFrame demo = new UIFrame();
+//        demo.startup();
 
-        // initialize MIDI file
-        MIDI_File datDere_midi = new MIDI_File(filePath);
 
-        // decode midi file to song
-        Song datDere = datDere_midi.to_song();
+        // midi file to upload
+        String midiFilePath = "/Users/garrettparrish/Desktop/Dat_Dere.mid";
 
-        // pass song to encoder (use Markov chains)
+        // load the sequence from the file path
+        try
+        {
+            Sequence ms = MidiSystem.getSequence(new File(midiFilePath));
 
-        // ouput fromMarkov processing
-        Song output = datDere;
+            // initialize MIDI file with the midi sequence
+            MidiFile datDere_midi = new MidiFile(ms);
 
-        // create a midi file object from the song
-        MIDI_File datDere_midi_out = datDere.toMidi();
+            // decode midi file to song
+            Song datDere = datDere_midi.to_song();
+
+            // pass song to encoder (use Markov chains)
+
+            // ouput fromMarkov processing
+            Song output = datDere;
+
+            // create a midi file object from the song
+            MidiFile datDere_midi_out = datDere.toMidiFile();
+
+            // write the midi file out to path
+            datDere_midi_out.writeToFilePath("/Users/garrettparrish/Desktop/midifileout.mid");
+
+        }
+        catch (Exception e)
+        {
+            // file doesn't exist
+            System.out.println(e.toString());
+        }
     }
 }
