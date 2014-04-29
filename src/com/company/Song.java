@@ -87,7 +87,7 @@ public class Song {
 
      */
 
-    private static final int START = 0;
+    private static final int START_TICK = 0;
     private static final int NOTE_ON = 0x90;
     private static final int NOTE_OFF = 0x80;
     private static final int SET_TEMPO = 0x51;
@@ -98,7 +98,7 @@ public class Song {
     private static final String[] NOTE_CLASSES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
     // tick counter for going through song
-    int current_tick = START;
+    int current_tick = START_TICK;
 
     // desired output tempo (maybe have the user specify this) ?
     float output_tempo = 120;
@@ -140,16 +140,16 @@ public class Song {
 
             // set track name (meta event)
             String TrackName = "Cannonball";
-            writeMetaEvent(SET_TRACK_NAME, TrackName.getBytes(), TrackName.length(), START);
+            writeMetaEvent(SET_TRACK_NAME, TrackName.getBytes(), TrackName.length(), START_TICK);
 
             // set omni on
-            writeShortEvent(0xB0, 0x7D, 0x00, START);
+            writeShortEvent(0xB0, 0x7D, 0x00, START_TICK);
 
             // set poly on
-            writeShortEvent(0xB0, 0x7F, 0x00, START);
+            writeShortEvent(0xB0, 0x7F, 0x00, START_TICK);
 
             // set instrument to Piano
-            writeShortEvent(0xC0, 0x00, 0x00, START);
+            writeShortEvent(0xC0, 0x00, 0x00, START_TICK);
 
             ////////////////////////////////////////////////////////
             //////////////////////// BODY //////////////////////////
