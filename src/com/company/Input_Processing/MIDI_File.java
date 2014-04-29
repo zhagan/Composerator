@@ -6,7 +6,7 @@ package com.company.Input_Processing;
 
 import com.company.*;
 import com.company.Chainables.*;
-
+import javax.sound.midi.MidiFileFormat;
 import java.io.*;
 import javax.sound.midi.*;
 
@@ -20,13 +20,27 @@ public class MIDI_File {
     // midi sequence
     private Sequence midiSequence;
 
+    // timing resolution
+    private float timingResolution;
+
+    // default constructor
+    public MIDI_File ()
+    {
+        midiSequence = null;
+    }
+
     // constructor for a MIDI_File object
     public MIDI_File (String path)
     {
         // Import sequence from file path (catch exceptions)
         midiSequence = null;
         try {
+            // set sequence
             midiSequence = MidiSystem.getSequence(new File(path));
+
+            // extract timing resolution
+            timingResolution = (float) midiSequence.getResolution();
+
         } catch (IOException e) {
             System.out.println(e.toString());
         } catch (InvalidMidiDataException e) {
@@ -49,6 +63,7 @@ public class MIDI_File {
         // iterate through available tracks
         for (Track track :  midiSequence.getTracks())
         {
+
             // for labeling track number
             trackNumber++;
 
@@ -113,7 +128,7 @@ public class MIDI_File {
 
                         // initialize new rest with just a duration (default values of
                         // pitch and volume are encapsulated in the rest constructor)
-                        Duration rest_duration = new Duration(rest_tick_start, rest_tick_end);
+                        Duration rest_duration = new Duration(rest_tick_start, rest_tick_end, timingResolution);
 
                         // only generate and add the rests if they last for a usable amount of time
                         if (rest_duration.getTime() > 0.0)
@@ -144,7 +159,7 @@ public class MIDI_File {
                         Volume current_volume = new Volume(velocity_start, velocity_end);
 
                         // create a new duration object
-                        Duration current_duration = new Duration(note_tick_start, note_tick_end);
+                        Duration current_duration = new Duration(note_tick_start, note_tick_end, timingResolution);
 
                         // encapsulate a new note object
                         Note current_note = new Note(current_pitch, current_volume, current_duration);
@@ -174,4 +189,11 @@ public class MIDI_File {
         // return the compiled song (also print song)
         return new Song(pitch_chain, volume_chain, duration_chain, note_chain);
     }
+
+    // getter method for timing resolution
+    public float getTimingResolution()
+    {
+        return timingResolution;
+    }
+
 }

@@ -9,7 +9,7 @@ public class Main {
        System.out.println("Welcome to Composerator.");
 
         // Upload audio file
-        String filePath = "/Users/powderski11/Downloads/Dat_Dere.mid";
+        String filePath = "/Users/garrettparrish/Desktop/Dat_Dere.mid";
 
         // initialize MIDI file
         MIDI_File datDere_midi = new MIDI_File(filePath);
@@ -19,5 +19,10 @@ public class Main {
 
         // pass song to encoder (use Markov chains)
 
+        // ouput fromMarkov processing
+        Song output = datDere;
+
+        // create a midi file object from the song
+        MIDI_File datDere_midi_out = datDere.toMidi();
     }
 }
