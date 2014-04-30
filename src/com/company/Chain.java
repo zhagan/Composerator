@@ -87,4 +87,11 @@ public class Chain<T extends Chainable> {
 
         return new ArrayList<Chainable>();
     }
+
+    // returns list of objects (used mainly for decoding)
+    public ArrayList<T> getList ()
+    {
+        return list;
+    }
+
 }

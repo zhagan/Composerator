@@ -20,6 +20,8 @@ public class Volume extends Chainable {
     // Java MIDI library's double range of velocities
     private static final double velocity_range = 127.0;
 
+    private int midi_velocity;
+
     // Default constructor (for rests)
     public Volume()
     {
@@ -34,6 +36,9 @@ public class Volume extends Chainable {
         {
             // Map 0.0 - 127.0 to 0.0 to 1.0
             vol = (upperBound - lowerBound) * (start_velocity / velocity_range);
+
+            // set midi velocity to input (used for decoding afterward)
+            midi_velocity = start_velocity;
         }
         else
         {
@@ -54,6 +59,7 @@ public class Volume extends Chainable {
     // return class name
     public static String classToString() { return "Volume"; }
 
+    // TODO
     public int compareTo(Chainable v)
     {
         double diff = vol - ((Volume) v).getVol();
@@ -64,6 +70,13 @@ public class Volume extends Chainable {
 
         else return 1;
     }
+
+    // return velocity
+    public int getMidi_velocity ()
+    {
+        return midi_velocity;
+    }
+
 
     //TODO override. see description in chainable / use helpers below
     public static ArrayList<Chainable> create_index(ArrayList<Chainable> chain)
