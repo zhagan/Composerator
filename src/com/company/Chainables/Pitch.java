@@ -1,5 +1,7 @@
 package com.company.Chainables;
 
+import java.util.ArrayList;
+
 /*
  * Created by Garrett on 4/21/14.
  */
@@ -90,7 +92,112 @@ public class Pitch extends Chainable {
 
     public int compareTo(Chainable p)
     {
-        return 0;
+        String p_pitch_class = ((Pitch) p).getPitch_class();
+
+        // check octave first
+        if (octave < ((Pitch) p).getOctave())
+        {
+            return -1;
+        }
+
+        else if (octave > ((Pitch) p).getOctave())
+        {
+            return 1;
+        }
+
+        // check same note/rest
+        else if (p_pitch_class.equals(pitch_class))
+        {
+            return 0;
+        }
+
+        // check rest; rest is always lower
+        else if (pitch_class.equals("R") && p_pitch_class.equals("R"))
+        {
+            return 0;
+        }
+
+        else if (p_pitch_class.equals("R"))
+        {
+            return 1;
+        }
+
+        else if (pitch_class.equals("R"))
+        {
+            return -1;
+        }
+
+        // compare notes. even if note sounds the same, note with lower letter is lower
+        else
+        {
+            int comp = pitch_class.compareTo(p_pitch_class);
+
+            if (comp == 1 || comp == -1)
+                return comp;
+
+            // check sharp/flat
+            else if (sharp)
+            {
+                if (((Pitch) p).getSharp())
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+
+            else if (flat)
+            {
+                if (((Pitch) p).getFlat())
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            else
+            {
+                if (((Pitch) p).getSharp())
+                {
+                    return -1;
+                }
+                else if (((Pitch) p).getFlat())
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+    }
+
+    //TODO override. see description in chainable / use helpers below
+    public static ArrayList<Chainable> create_index(ArrayList<Chainable> chain)
+    {
+        return sort(quantize(chain));
+    }
+
+    //TODO helper to quantize
+    //this means there should be a discrete set of values (not necessarily integers)
+    //i.e. [1.19,2.28,1.21] ==> [1.2,2.3,1.2]
+    //careful with casting here and below. will need to cast from chainable to vol
+    private static ArrayList<Chainable> quantize(ArrayList<Chainable> chain)
+    {
+        return new ArrayList<Chainable>();
+    }
+
+    //TODO helper to sort and remove duplicates
+    //should be self explanatory. sorting is done using compareTO
+    private static ArrayList<Chainable> sort(ArrayList<Chainable> chain)
+    {
+        return new ArrayList<Chainable>();
     }
 
 }

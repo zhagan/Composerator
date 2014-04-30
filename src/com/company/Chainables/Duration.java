@@ -6,11 +6,16 @@ package com.company.Chainables;
 
 import com.company.Chainables.Chainable;
 
+import java.util.ArrayList;
+
 public class Duration extends Chainable {
 
     // length of the duration
     private double time_s;
     private long tick_length;
+
+    // tolerance for comparison
+    private final double tolerance = 1e-6;
 
     // tick rate
     // MIDI files were generated at 960 PPQN (pulses per quarter note)
@@ -60,9 +65,37 @@ public class Duration extends Chainable {
         return "Duration";
     }
 
-    // TODO
+    // ASSUMES chainable is a duration
     public int compareTo(Chainable d)
     {
-        return 0;
+        double diff = time_s - ((Duration) d).getTime();
+
+        if (Math.abs(diff) < tolerance) return 0;
+
+        else if (diff < 0) return -1;
+
+        else return 1;
+    }
+
+    //TODO override. see description in chainable / use helpers below
+    public static ArrayList<Chainable> create_index(ArrayList<Chainable> chain)
+    {
+        return sort(quantize(chain));
+    }
+
+    //TODO helper to quantize
+    //this means there should be a discrete set of values (not necessarily integers)
+    //i.e. [1.19,2.28,1.21] ==> [1.2,2.3,1.2]; close values become the same
+    //careful with casting here and below. will need to cast from chainable to vol
+    private static ArrayList<Chainable> quantize(ArrayList<Chainable> chain)
+    {
+        return new ArrayList<Chainable>();
+    }
+
+    //TODO helper to sort and remove duplicates
+    //should be self explanatory. sorting is done using compareTO
+    private static ArrayList<Chainable> sort(ArrayList<Chainable> chain)
+    {
+        return new ArrayList<Chainable>();
     }
 }

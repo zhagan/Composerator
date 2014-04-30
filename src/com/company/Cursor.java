@@ -6,76 +6,63 @@ package com.company;
 
 import com.company.Chain;
 import com.company.Chainables.*;
+import java.util.*;
 
 public class Cursor implements Comparable<Cursor>
 {
-    // Instance vars
-    private int len;
-    private Chainable[] entries;
+    // Instance var
+    private ArrayList<Chainable> entries;
 
-    // Basic constructor. Assumes positive len
-    public Cursor(int len)
+    // Basic constructor
+    public Cursor()
     {
-        len = len;
-        entries = new Chainable[len];
+        entries = new ArrayList<Chainable>();
     }
 
-    // Constructor that also takes an input array
-    public Cursor(int len, Chainable[] arr)
+    // Constructor that also takes an input arraylist
+    public Cursor(ArrayList<Chainable> list)
     {
-        this(len);
-
-        // only add the first len elements
-        for (int i = 0; i < len; i++)
-        {
-            entries[i] = arr[i];
-        }
-    }
-
-    // Get len
-    public int getLen()
-    {
-        return len;
+        entries = list;
     }
 
     // Get ith entry
     public Chainable get_obj_at(int i)
     {
-        return entries[Math.max(Math.min(i, len - 1), 0)];
+        return entries.get(i);
+    }
+
+    public int get_len()
+    {
+        return entries.size();
     }
 
     // Set ith entry
     public void set(int i, Chainable obj)
     {
-        entries[i] = obj;
+        entries.set(i, obj);
     }
 
     // Get last entry
     public Chainable get_last()
     {
-        return this.get_obj_at(len - 1);
+        return entries.get((entries.size() - 1));
     }
 
     // Return new chainable with last element removed
     public Cursor strip_last()
     {
-        int new_len = len - 1;
-        Chainable[] new_c = new Chainable[new_len];
-        System.arraycopy(entries, 0, new_c, 0, new_len);
-        return new Cursor(new_len, new_c);
+        Cursor new_cur = new Cursor(entries);
+        new_cur.entries.remove(entries.size() - 1);
+        return new_cur;
     }
 
-    // implementing compare method. assumes same length
-    @Override public int compareTo(Cursor c)
+    // implementing compare method. ASSUMES same length
+    public int compareTo(Cursor cur)
     {
-
-        // extra precaution in case lengths differ
-        int min_len = Math.min(len, c.getLen());
-
-        for (int i = 0; i < min_len; i++)
+        for (int i = 0, len = entries.size(); i < len; i++)
         {
             // compare corresponding entries
-            int comp = this.get_obj_at(i).compareTo(c.get_obj_at(i));
+            int comp = entries.get(i).compareTo(cur.get_obj_at(i));
 
             if (comp < 0)
                 return -1;

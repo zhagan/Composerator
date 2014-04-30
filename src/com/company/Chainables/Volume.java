@@ -3,11 +3,15 @@ package com.company.Chainables;
 /*
  * Created by Garrett on 4/21/14.
  */
+import java.util.ArrayList;
 
 public class Volume extends Chainable {
 
     // level of the volume
     public double vol;
+
+    // tolerance for comparison
+    private final double tolerance = 1e-6;
 
     // upper and lower bounds of volume range
     private static final double upperBound = 1.0;
@@ -50,10 +54,36 @@ public class Volume extends Chainable {
     // return class name
     public static String classToString() { return "Volume"; }
 
-    // TODO
     public int compareTo(Chainable v)
     {
-        return 0;
+        double diff = vol - ((Volume) v).getVol();
+
+        if (Math.abs(diff) < tolerance) return 0;
+
+        else if (diff < 0) return -1;
+
+        else return 1;
     }
 
+    //TODO override. see description in chainable / use helpers below
+    public static ArrayList<Chainable> create_index(ArrayList<Chainable> chain)
+    {
+        return sort(quantize(chain));
+    }
+
+    //TODO helper to quantize
+    //this means there should be a discrete set of values (not necessarily integers)
+    //i.e. [1.19,2.28,1.21] ==> [1.2,2.3,1.2]
+    //careful with casting here and below. will need to cast from chainable to vol
+    private static ArrayList<Chainable> quantize(ArrayList<Chainable> chain)
+    {
+        return new ArrayList<Chainable>();
+    }
+
+    //TODO helper to sort and remove duplicates
+    //should be self explanatory. sorting is done using compareTO
+    private static ArrayList<Chainable> sort(ArrayList<Chainable> chain)
+    {
+        return new ArrayList<Chainable>();
+    }
 }

@@ -3,6 +3,8 @@ package com.company.Chainables;
 /*
  * Created by Garrett on 4/21/14.
  */
+import java.util.ArrayList;
+import com.company.Cursor;
 
 public abstract class Chainable implements Comparable<Chainable> {
 
@@ -20,6 +22,12 @@ public abstract class Chainable implements Comparable<Chainable> {
         return "";
     }
 
-
+    // method to create an index list given a list of chainables
+    // index list will be SORTED, QUANTIZED (if necessary), and CONTAIN NO DUPLICATES
+    // Dummy method to be overriden
+    public static ArrayList<Chainable> create_index(ArrayList<Chainable> chain)
+    {
+        return new ArrayList<Chainable>();
+    }
 }
 

@@ -29,23 +29,21 @@ public class Chain<T extends Chainable> {
         list.add(obj);
     }
 
-    // Initialize the cursor (length order + 1) to the first elements
+    // Initialize the cursor (length = order + 1) to the first elements
     public boolean init_cursor(int order)
     {
-        if (list.size() >= cursor.getLen())
+        if (list.size() >= order)
         {
-            int len = order + 1;
-
             // copy first elements of list
-            Chainable[] c = new Chainable[len];
-            for (int i = 0; i < len; i++)
+            ArrayList<Chainable> cur = new ArrayList<Chainable>();
+
+            for (int i = 0; i < order + 1; i++)
             {
-                // TODO FIX THIS CAST --> SHOULDN'T HAVE TO DO IT THIS WAY
-                c[i] = (Chainable) list.get(i);
+                cur.add(list.get(i));
             }
 
-            cursor = new Cursor(len, c);
-            cursor_pos = len - 1;
+            cursor = new Cursor(cur);
+            cursor_pos = order;
 
             return true;
         }
@@ -58,7 +56,7 @@ public class Chain<T extends Chainable> {
     {
         if (list.size() > cursor_pos)
         {
-            for (int i = 0, l = cursor.getLen(); i < l; i++)
+            for (int i = 0, l = cursor.get_len(); i < l; i++)
             {
                 cursor.set(i, list.get(cursor_pos - l + 1));
             }
@@ -79,5 +77,14 @@ public class Chain<T extends Chainable> {
             System.out.print(" " + c.toString() + " ");
         }
         System.out.println("]");
+    }
+
+    // method to create index
+    // TODO -- need commented line below but has error, figure out workaround
+    public ArrayList<Chainable> create_index()
+    {
+        // return T.create_index(list);
+
+        return new ArrayList<Chainable>();
     }
 }
