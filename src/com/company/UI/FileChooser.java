@@ -44,123 +44,203 @@ import javax.swing.SwingUtilities;
  *   images/Save16.gif
  */
 
-// this class is adapted from one found online: http://docs.oracle.com/javase/tutorial/uiswing/examples/components/FileChooserDemoProject/src/components/FileChooserDemo.java
 
-public class FileChooser extends JPanel implements ActionListener
+// this class is adapted from one found online: http://docs.oracle.com/javase/tutorial/uiswing/examples/components/FileChooserDemoProject/src/components/FileChooserDemo.java
+// this class is itself a JPanel but has many subclasses JPanel components
+public class FileChooser extends JFrame implements ActionListener
 {
     static private final String newline = "\n";
-    JButton openButton, saveButton;
-    JTextArea log;
+    JButton chooseFile1, chooseFile2, chooseFile3;
+    JTextArea file1Log, file2Log, file3Log;
+    JScrollPane log1ScrollPane, log2ScrollPane, log3ScrollPane;
+
     JFileChooser fc;
 
     public FileChooser()
     {
-        super(new BorderLayout());
+        super("TEST");
 
-        //Create the log first, because the action listeners
-        //need to refer to it.
-        log = new JTextArea(10,20);
-        log.setMargin(new Insets(5,5,5,5));
-        log.setEditable(false);
-        JScrollPane logScrollPane = new JScrollPane(log);
-
-        //Create a file chooser
+        // create a file chooser
         fc = new JFileChooser();
 
-        //Uncomment one of the following lines to try a different
-        //file selection mode.  The first allows just directories
-        //to be selected (and, at least in the Java look and feel,
-        //shown).  The second allows both files and directories
-        //to be selected.  If you leave these lines commented out,
-        //then the default mode (FILES_ONLY) will be used.
-        //
-        //fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        //fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        // FOR EACH INPUT FILE - CREATE A CHOOSE BUTTON AND A TEST FIELD SPECIFYING STATUS
 
-        //Create the open button.  We use the image from the JLF
-        //Graphics Repository (but we extracted it from the jar).
-        openButton = new JButton("Choose a midi file...",
-                createImageIcon("images/Open16.gif"));
-        openButton.addActionListener(this);
+        ///////////////////////////////////////////////////////////////
+        ///////////////////// INSTRUCTIONS ////////////////////////////
+        ///////////////////////////////////////////////////////////////
+/*
+        JTextArea instructions = new JTextArea(1,45);
+        instructions.setMargin(new Insets(5,5,5,5));
+        instructions.setEditable(false);
+        instructions.setText("Welcome to Composerator! Please select up to three MIDI files that you wish to Composerate!");
 
-        //Create the save button.  We use the image from the JLF
-        //Graphics Repository (but we extracted it from the jar).
-        saveButton = new JButton("Save a File...",
-                createImageIcon("images/Save16.gif"));
-        saveButton.addActionListener(this);
+        JPanel instructionsPanel = new JPanel();
+        instructionsPanel.add(instructions);
+        instructionsPanel.setPreferredSize(new Dimension(150,10));
+        add(instructionsPanel);
 
-        //For layout purposes, put the buttons in a separate panel
-        JPanel buttonPanel = new JPanel(); //use FlowLayout
-        buttonPanel.add(openButton);
-        buttonPanel.add(saveButton);
+        ///////////////////////////////////////////////////////////////
+        ///////////////////// INPUT FILE 1 ////////////////////////////
+        ///////////////////////////////////////////////////////////////
 
-        //Add the buttons and the log to this panel.
-        add(buttonPanel, BorderLayout.PAGE_START);
-        add(logScrollPane, BorderLayout.CENTER);
+        // create three choose file buttons (one for each optional midi file)
+        chooseFile1 = new JButton("File 1");
+        chooseFile1.addActionListener(this);
+
+        // text box to print status updates
+        file1Log = new JTextArea(1,40);
+        file1Log.setMargin(new Insets(5,5,5,5));
+        file1Log.setEditable(false);
+        log1ScrollPane = new JScrollPane(file1Log);
+
+        // create panel and add buttons and log
+        JPanel chooseFile1Panel = new JPanel();
+        chooseFile1Panel.add(chooseFile1);
+        chooseFile1Panel.add(log1ScrollPane);
+//        chooseFile1Panel.setPreferredSize(new Dimension(150,200));
+        add(chooseFile1Panel);
+
+
+        ///////////////////////////////////////////////////////////////
+        ///////////////////// INPUT FILE 2 ////////////////////////////
+        ///////////////////////////////////////////////////////////////
+
+        // create three choose file buttons (one for each optional midi file)
+        chooseFile2 = new JButton("File 2");
+        chooseFile2.addActionListener(this);
+
+        // text box to print status updates
+        file2Log = new JTextArea(1,40);
+        file2Log.setMargin(new Insets(5,5,5,5));
+        file2Log.setEditable(false);
+        log2ScrollPane = new JScrollPane(file2Log);
+
+        // create panel and add buttons and log
+        JPanel chooseFile2Panel = new JPanel();
+        chooseFile2Panel.add(chooseFile2);
+        chooseFile2Panel.add(log2ScrollPane);
+        add(chooseFile2Panel);
+
+        ///////////////////////////////////////////////////////////////
+        ///////////////////// INPUT FILE 2 ////////////////////////////
+        ///////////////////////////////////////////////////////////////
+
+        // create three choose file buttons (one for each optional midi file)
+        chooseFile3 = new JButton("File 3");
+        chooseFile3.addActionListener(this);
+
+        // text box to print status updates
+        file3Log = new JTextArea(1,40);
+        file3Log.setMargin(new Insets(5,5,5,5));
+        file3Log.setEditable(false);
+        log3ScrollPane = new JScrollPane(file3Log);
+
+        // create panel and add buttons and log
+        JPanel chooseFile3Panel = new JPanel();
+        chooseFile3Panel.add(chooseFile3);
+        chooseFile3Panel.add(log3ScrollPane);
+        add(chooseFile3Panel);
+
+        ///////////////////////////////////////////////////////////////
+        //////////////////////// CONTROL //////////////////////////////
+        ///////////////////////////////////////////////////////////////
+*/
     }
 
     public void actionPerformed(ActionEvent e) {
 
         //Handle open button action.
-        if (e.getSource() == openButton)
+        if (e.getSource() == chooseFile1)
         {
             int returnVal = fc.showOpenDialog(FileChooser.this);
 
             if (returnVal == JFileChooser.APPROVE_OPTION)
             {
                 File file = fc.getSelectedFile();
-                //This is where a real application would open the file.
-                log.append("Opening: " + file.getName() + "." + newline);
+                System.out.println("File 1: " + file.getAbsolutePath());
+//                log.append("File 1: " + file.getAbsolutePath());
+                // pass file path to program
             }
             else
             {
-                log.append("Open command cancelled by user." + newline);
+//                log.append("Open command cancelled by user." + newline);
             }
-            log.setCaretPosition(log.getDocument().getLength());
-
-            //Handle save button action.
+            file1Log.setCaretPosition(file1Log.getDocument().getLength());
         }
-        else if (e.getSource() == saveButton)
+        else if (e.getSource() == chooseFile2)
         {
             int returnVal = fc.showSaveDialog(FileChooser.this);
             if (returnVal == JFileChooser.APPROVE_OPTION)
             {
                 File file = fc.getSelectedFile();
-                //This is where a real application would save the file.
-                log.append("Saving: " + file.getName() + "." + newline);
+                System.out.println("File 2: " + file.getAbsolutePath());
+//                log.append("File 2: " + file.getAbsolutePath());
             }
             else
             {
-                log.append("Save command cancelled by user." + newline);
+//                log.append("Save command cancelled by user." + newline);
             }
-            log.setCaretPosition(log.getDocument().getLength());
+//            log.setCaretPosition(log.getDocument().getLength());
+        }
+        else if (e.getSource() == chooseFile3)
+        {
+            int returnVal = fc.showSaveDialog(FileChooser.this);
+            if (returnVal == JFileChooser.APPROVE_OPTION)
+            {
+                File file = fc.getSelectedFile();
+                System.out.println("File 3: " + file.getAbsolutePath());
+  //              log.append("File 3: " + file.getAbsolutePath());
+            }
+            else
+            {
+//                log.append("Save command cancelled by user." + newline);
+            }
+//            log.setCaretPosition(log.getDocument().getLength());
         }
     }
 
-    /** Returns an ImageIcon, or null if the path was invalid. */
-    protected static ImageIcon createImageIcon(String path)
+    private void createUI(final Container pane)
     {
-        java.net.URL imgURL = FileChooser.class.getResource(path);
-        if (imgURL != null)
-        {
-            return new ImageIcon(imgURL);
-        }
-        else
-        {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
+        JTextArea instructions = new JTextArea(1,45);
+        instructions.setMargin(new Insets(5,5,5,5));
+        instructions.setEditable(false);
+        instructions.setText("Welcome to Composerator! Please select up to three MIDI files that you wish to Composerate!");
+
+        JPanel instructionsPanel = new JPanel();
+        instructionsPanel.add(instructions);
+        instructionsPanel.setPreferredSize(new Dimension(150,10));
+        pane.add(instructionsPanel, BorderLayout.NORTH);
+
+        ///////////////////////////////////////////////////////////////
+        ///////////////////// INPUT FILE 1 ////////////////////////////
+        ///////////////////////////////////////////////////////////////
+
+        // create three choose file buttons (one for each optional midi file)
+        chooseFile1 = new JButton("File 1");
+        chooseFile1.addActionListener(this);
+
+        // text box to print status updates
+        file1Log = new JTextArea(1,40);
+        file1Log.setMargin(new Insets(5,5,5,5));
+        file1Log.setEditable(false);
+        log1ScrollPane = new JScrollPane(file1Log);
+
+        // create panel and add buttons and log
+        JPanel chooseFile1Panel = new JPanel();
+        chooseFile1Panel.add(chooseFile1);
+        chooseFile1Panel.add(log1ScrollPane);
+//        chooseFile1Panel.setPreferredSize(new Dimension(150,200));
+        pane.add(chooseFile1Panel);
+
+
+
+
     }
 
-    /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from the
-     * event dispatch thread.
-     */
-    private static void createAndShowGUI()
+    private void createAndShowGUI()
     {
         //Create and set up the window.
-        JFrame frame = new JFrame("FileChooser");
+        JFrame frame = new JFrame("Composerator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Add content to the window.
@@ -169,9 +249,11 @@ public class FileChooser extends JPanel implements ActionListener
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+
+        createUI(frame.getContentPane());
     }
 
-    public static void main(String[] args)
+    public void main()
     {
         //Schedule a job for the event dispatch thread:
         //creating and showing this application's GUI.
