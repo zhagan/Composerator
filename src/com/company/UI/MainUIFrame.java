@@ -77,6 +77,7 @@ public class MainUIFrame extends JFrame
         cancelFile1 = new JButton("Remove");
 
         // text box to print status updates
+        file1Log = new JTextArea(1,20);
         formatTextPanel(file1Log);
         log1ScrollPane = new JScrollPane(file1Log);
 
@@ -94,6 +95,7 @@ public class MainUIFrame extends JFrame
         cancelFile2 = new JButton("Remove");
 
         // text box to print status updates
+        file2Log = new JTextArea(1,20);
         formatTextPanel(file2Log);
         log2ScrollPane = new JScrollPane(file2Log);
 
@@ -111,6 +113,7 @@ public class MainUIFrame extends JFrame
         cancelFile3 = new JButton("Remove");
 
         // text box to print status updates
+        file3Log = new JTextArea(1,20);
         formatTextPanel(file3Log);
         log3ScrollPane = new JScrollPane(file3Log);
 
@@ -327,7 +330,6 @@ public class MainUIFrame extends JFrame
     // helper method for formatting text areas (for standardization)
     private void formatTextPanel(JTextArea t)
     {
-        t = new JTextArea(1,20);
         t.setMargin(new Insets(5,5,5,5));
         t.setEditable(false);
     }
