@@ -9,12 +9,12 @@ import java.util.ArrayList;
 
 public class Chain<T extends Chainable> {
 
-    // This is the position of the LAST element of the cursor
-    private int cursor_pos;
-
     // Instance vars
     private ArrayList<T> list;
-    private Cursor<T> cursor;
+    private Cursor cursor;
+
+    // This is the position of the LAST element of the cursor
+    private int cursor_pos;
 
     // Create new chain
     public Chain()
@@ -105,4 +105,11 @@ public class Chain<T extends Chainable> {
     {
         return list;
     }
+
+    // appends another chain to the rear of this chain
+    public void appendChain(Chain c)
+    {
+        list.addAll(c.getList());
+    }
+
 }
