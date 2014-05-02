@@ -20,30 +20,59 @@ public class Composeration
     public Composeration(ArrayList<String> filePaths, int order, int outputLength, String outFilePath)
     {
 
-        // midi file to upload
-        String midiFilePath = "/Users/garrettparrish/Desktop/Dat_Dere.mid";
-
         // load the sequence from the file path
         try
         {
-            Sequence ms = MidiSystem.getSequence(new File(midiFilePath));
+            // an array list to hold the multiple song objects from
+            // each of the input midi files
+            ArrayList<Song> songs = new ArrayList<Song>();
 
-            // initialize MIDI file with the midi sequence
-            MidiFile datDere_midi = new MidiFile(ms);
+            // for each file passed as input -> create a midi sequence
+            for(String path : filePaths)
+            {
+                // strip out the midi sequence
+                Sequence ms = MidiSystem.getSequence(new File(path));
 
-            // decode midi file to song
-            Song datDere = datDere_midi.to_song();
+                // initialize MIDI file with the midi sequence
+                MidiFile midi = new MidiFile(ms);
 
-            // pass song to encoder (use Markov chains)
+                // decode midi file to song
+                Song midiSong = midi.to_song();
+
+                // add to array list
+                songs.add(midiSong);
+            }
+
+            // combine all the songs into one new one
+
+            // set output song to be first song
+            Song outputSong = songs.get(0);
+
+            // if at least 2 songs
+            if (songs.size() > 1)
+            {
+                // append 2nd song
+                outputSong.appendSong(songs.get(1));
+            }
+
+            // if more than 2 (only in case of 3)
+            if (songs.size() > 2)
+            {
+                // append the 3rd song (2nd song is already in the output)
+                outputSong.appendSong(songs.get(2));
+            }
+
+            // pass output song to markov processing
+
 
             // ouput fromMarkov processing
-            Song output = datDere;
+//            Song output = new Song();
 
             // create a midi file object from the song
-            MidiFile datDere_midi_out = datDere.toMidiFile();
+//            MidiFile datDere_midi_out = datDere.toMidiFile();
 
             // write the midi file out to path
-            datDere_midi_out.writeToFilePath("/Users/garrettparrish/Desktop/midifileout.mid");
+  //          datDere_midi_out.writeToFilePath("/Users/garrettparrish/Desktop/midifileout.mid");
 
         }
         catch (Exception e)

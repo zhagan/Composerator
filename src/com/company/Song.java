@@ -216,4 +216,14 @@ public class Song {
         current_track.add(me);
     }
 
+    // appends a song to this current song
+    public void appendSong(Song s)
+    {
+        // append all the individual chains within the song
+        note_chain.appendChain(s.note_chain);
+        pitch_chain.appendChain(s.pitch_chain);
+        volume_chain.appendChain(s.volume_chain);
+        duration_chain.appendChain(s.duration_chain);
+    }
+
 }

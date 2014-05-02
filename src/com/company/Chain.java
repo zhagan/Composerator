@@ -17,7 +17,7 @@ public class Chain<T extends Chainable> {
     // This is the position of the LAST element of the cursor
     private int cursor_pos;
 
-    // Create new chain
+    // default constructor for a new chain
     public Chain()
     {
         this.list = new ArrayList<T>();
@@ -92,6 +92,12 @@ public class Chain<T extends Chainable> {
     public ArrayList<T> getList ()
     {
         return list;
+    }
+
+    // appends another chain to the rear of this chain
+    public void appendChain(Chain c)
+    {
+        list.addAll(c.getList());
     }
 
 }
