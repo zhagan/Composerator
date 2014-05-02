@@ -5,6 +5,10 @@ import com.company.UI.UIFrame;
 
 import javax.sound.midi.*;
 import java.io.File;
+import com.company.Chainables.*;
+
+// TODO will be unused
+import java.util.ArrayList;
 
 public class Main {
 
@@ -12,16 +16,8 @@ public class Main {
 
         System.out.println("Welcome to Composerator.");
 
-        // SOME UI ATTEMPTS
-        // create a file chooser
-//        FileChooser chooser = new FileChooser();
-//        chooser.main(null);
-//        UIFrame demo = new UIFrame();
-//        demo.startup();
-
-
         // midi file to upload
-        String midiFilePath = "/Users/garrettparrish/Desktop/Dat_Dere.mid";
+        String midiFilePath = "/Users/powderski11/Downloads/Dat_Dere.mid";
 
         // load the sequence from the file path
         try
@@ -34,13 +30,21 @@ public class Main {
             // decode midi file to song
             Song datDere = datDere_midi.to_song();
 
-            // pass song to encoder (use Markov chains)
+            // create probability matrices for each element of song
+            MarkovMatrix<Pitch> pitchMatrix = new MarkovMatrix<Pitch>(datDere.getPitch_chain(), 2);
+            MarkovMatrix<Duration> durationMatrix = new MarkovMatrix<Duration>(datDere.getDuration_chain(), 2);
+            MarkovMatrix<Volume> volumeMatrix = new MarkovMatrix<Volume>(datDere.getVolume_chain(), 2);
+
+            // composerate!
+            Chain<Pitch> pitchChain = pitchMatrix.compose(100);
+            Chain<Duration> durationChain = durationMatrix.compose(100);
+            Chain<Volume> volumeChain = volumeMatrix.compose(100);
 
             // ouput fromMarkov processing
-            Song output = datDere;
+            Song output = new Song(pitchChain, volumeChain, durationChain, null, (float) 0.);
 
             // create a midi file object from the song
-            MidiFile datDere_midi_out = datDere.toMidiFile();
+            MidiFile datDere_midi_out = output.toMidiFile();
 
             // write the midi file out to path
             datDere_midi_out.writeToFilePath("/Users/garrettparrish/Desktop/midifileout.mid");

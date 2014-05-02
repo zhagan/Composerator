@@ -43,6 +43,28 @@ public class Song {
         note_chain.print_chain();
     }
 
+    // getters
+    public Chain getNote_chain()
+    {
+        return note_chain;
+    }
+
+    public Chain getVolume_chain()
+    {
+        return volume_chain;
+    }
+
+    public Chain getDuration_chain()
+    {
+        return duration_chain;
+    }
+
+    public Chain getPitch_chain()
+    {
+        return pitch_chain;
+    }
+
+
     /*
         Information on MIDI file formats adapted from:
         - http://www.fileformat.info/format/midi/corion.htm
@@ -215,5 +237,4 @@ public class Song {
         MidiEvent me = new MidiEvent(sm, (long) tick);
         current_track.add(me);
     }
-
 }

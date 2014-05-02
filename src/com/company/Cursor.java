@@ -8,19 +8,19 @@ import com.company.Chain;
 import com.company.Chainables.*;
 import java.util.*;
 
-public class Cursor implements Comparable<Cursor>
+public class Cursor<T extends Chainable> implements Comparable<Cursor<T>>
 {
     // Instance var
-    private ArrayList<Chainable> entries;
+    private ArrayList<T> entries;
 
     // Basic constructor
     public Cursor()
     {
-        entries = new ArrayList<Chainable>();
+        entries = new ArrayList<T>();
     }
 
     // Constructor that also takes an input arraylist
-    public Cursor(ArrayList<Chainable> list)
+    public Cursor(ArrayList<T> list)
     {
         entries = list;
     }
@@ -36,14 +36,19 @@ public class Cursor implements Comparable<Cursor>
         return entries.size();
     }
 
+    public ArrayList<T> getEntries()
+    {
+        return entries;
+    }
+
     // Set ith entry
-    public void set(int i, Chainable obj)
+    public void set(int i, T obj)
     {
         entries.set(i, obj);
     }
 
     // Get last entry
-    public Chainable get_last()
+    public T get_last()
     {
         return entries.get((entries.size() - 1));
     }
@@ -51,9 +56,14 @@ public class Cursor implements Comparable<Cursor>
     // Return new chainable with last element removed
     public Cursor strip_last()
     {
-        Cursor new_cur = new Cursor(entries);
-        new_cur.entries.remove(entries.size() - 1);
-        return new_cur;
+        ArrayList<T> newEntries = new ArrayList<T>();
+
+        for (int i = 0, n = entries.size() - 1; i < n; i++)
+        {
+            newEntries.add(entries.get(i));
+        }
+
+        return new Cursor(newEntries);
     }
 
     // implementing compare method. ASSUMES same length
@@ -71,5 +81,17 @@ public class Cursor implements Comparable<Cursor>
                 return 1;
         }
         return 0;
+    }
+
+    @Override public String toString()
+    {
+        String s = "[";
+
+        for (Chainable c : entries)
+        {
+            s += c.toString() + "  ";
+        }
+
+        return s + "]:   ";
     }
 }

@@ -5,26 +5,33 @@ package com.company;
  */
 import java.util.ArrayList;
 import com.company.Chainables.Chainable;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
-public class MarkovRow<T extends Chainable> implements Comparable<MarkovRow>
+public class MarkovRow<T extends Chainable> implements Comparable<MarkovRow<T>>
 {
     // identifier, i.e. note(s) that we are finding the probability
     // of certain notes following
-    private Cursor id;
+    private Cursor<T> id;
 
-    // to keep track of the number of nonzero probabilities
-    private int num_filled;
+    // sorted list of probabilities
+    // note is only added once it appears
+    private SortedArrayList<MarkovEntry<T>> entries;
 
-    // list of probabilities
-    private ArrayList<Double> entries;
-
-    // index list, for reference
-    private ArrayList<T> index;
+    // number of chainables that have been added to row
+    private int numAdded;
 
     // keep track of normalized
     // also keeps track of whether the matrix is "done" (fully constructed)
     private Boolean normalized = false;
+
+    // keep track of prepped for composition
+    private Boolean prepared = false;
+
+    public MarkovRow (Cursor c)
+    {
+        id = c;
+        numAdded = 0;
+        entries = new SortedArrayList<MarkovEntry<T>>();
+    }
 
     // getters
     public Cursor getId()
@@ -32,82 +39,137 @@ public class MarkovRow<T extends Chainable> implements Comparable<MarkovRow>
         return id;
     }
 
-    public int getNum_filled()
-    {
-        return num_filled;
-    }
-
-    public ArrayList<Double> getEntries()
+    public ArrayList<MarkovEntry<T>> getEntries()
     {
         return entries;
     }
 
-    public ArrayList<T> getIndex()
+    // setter
+    public void setId(Cursor<T> id)
     {
-        return index;
-    }
-
-    public MarkovRow (Cursor i, ArrayList<T> ind)
-    {
-        index = ind;
-        id = i;
-        num_filled = 0;
-
-        // entries initially zero
-        for (Chainable c : index)
-        {
-            entries.add(0.);
-        }
-    }
-
-    // TODO -- looks up the index of a chainable
-    // binary search for index (index is sorted w/ no duplicates)
-    // return -1 if not found in the index, though this should never happen
-    // (index should contain all possible chainables in the song)
-    // for use in inc() below
-    private int find_index(Chainable c)
-    {
-        return 0;
-    }
-
-    // adds 1 to a slot that corresponds to a give chainable
-    public void inc(Chainable c)
-    {
-        int index = find_index(c);
-        entries.set(index, 1.);
-
-        // update num_filled if this is the first entry in that slot
-        if ((int) Math.round(entries.get(index)) == 1)
-        {
-            num_filled++;
-        }
-
+        this.id = id;
     }
 
     // Method to divide each element of the row by the number of entries that are filled
     public void normalize()
     {
-        for (int i = 0, n = entries.size(); i < n; i++)
+        for (MarkovEntry e : entries)
         {
-            entries.set(i, (entries.get(i) / num_filled));
+            e.divide(numAdded);
         }
 
         normalized = true;
     }
 
-    // TODO
-    // randomly pick a note from the row based on the probabilities
-    // return null if not normalized (shouldn't happen anyway)
-    // commented to avoid warnings
-    //public Chainable pick()
+    // prepares the row for probabilistic entry selection
+    // makes it so that a random number generator can be used to select an element
+    public void prepareForComposition()
     {
+        if (normalized)
+        {
+            double sum = 0.;
 
+            for (MarkovEntry e : entries) {
+                double tmp = e.getProb();
+                e.add(sum);
+                sum += tmp;
+            }
+
+            prepared = true;
+        }
     }
 
+    // adds a chainable to the list of markov entries
+    // if it already exists, updates counter
+    public void add(T c)
+    {
+        MarkovEntry<T> newEntry = new MarkovEntry<T>(c);
+
+        int index = SortedArrayList.binSearch(entries, newEntry, 0, entries.size());
+
+        // if not found, insert new
+        if (index == -1)
+        {
+            entries.insertSorted(newEntry);
+        }
+
+        // otherwise update
+        else
+        {
+            entries.get(index).increment();
+        }
+
+        numAdded++;
+    }
+
+    // TODO
+    // randomly pick a note from the row based on the probabilities
+    // return null if not normalized and prepped (shouldn't happen anyway)
+    public T choose()
+    {
+        if (normalized && prepared)
+        {
+            double rand = Math.random();
+
+            for (MarkovEntry entry : entries)
+            {
+                if (rand < entry.getProb())
+                {
+                    return (T) entry.getValue();
+                }
+            }
+
+            // should never happen
+            return null;
+        }
+
+        else
+        {
+            return null;
+        }
+    }
 
     // Compare two rows by ID
     public int compareTo(MarkovRow r)
     {
         return id.compareTo(r.getId());
+    }
+
+    // increment the probability of a certain chainable
+    public void increment(T c)
+    {
+        MarkovEntry<T> entry = new MarkovEntry<T>(c);
+
+        int index = SortedArrayList.binSearch(entries, entry, 0, entries.size());
+
+        if (index == -1)
+        {
+            entries.insertSorted(entry);
+        }
+
+        else
+        {
+            entries.get(index).increment();
+        }
+
+        numAdded++;
+    }
+
+    @Override public String toString()
+    {
+        String s = id.toString();
+
+        if (entries.size() != 0)
+        {
+            for (MarkovEntry e : entries)
+            {
+                s += e.toString() + "  ";
+            }
+            return s + "\n";
+        }
+        else
+        {
+            return s + "<empty>";
+        }
     }
 }

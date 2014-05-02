@@ -5,46 +5,144 @@ package com.company;
  */
 
 import com.company.Chainables.Chainable;
-import java.util.ArrayList;
+import sun.misc.Sort;
+
+import java.util.Random;
 
 public class MarkovMatrix<T extends Chainable>
 {
-    // root of tree (can reach the rest by traversal)
-    private BinTree<MarkovRow> root;
-
-    // index array that shows what notes/durs/vols in the rows refer to
-    private ArrayList<T> index;
 
     // actual matrix of rows
-    private ArrayList<MarkovRow<T>> matrix;
+    private SortedArrayList<MarkovRow<T>> matrix;
 
-    // **** NOTE ****
-    // it will probably be good to use helpers for these in the spirit of good design
+    // order of markov chain
+    private int order;
 
-    // TODO
-    // builds a matrix (tree) from a chain
-    // will be used in main to build matrices for pitch/dur/vol chains in song
-    // inits cursor in chain
-    // iterates thru the chain, advancing the cursor until c.advance_cursor returns false (reached the end)
-    // ^ use a while loop for this, can check and advance the cursor at the same time
-    // each cursor is advanced, update tree
-    // ID's for rows in the tree are the cursor stripped of the last element; we want the notes preceding,
-    // not the current note (theres a method for that in cursor)
-    // once done, normalize the tree
-    public MarkovMatrix(Chain c, int order)
+    // builds a markovmatrix from a chain
+    // contains probabilities
+    public MarkovMatrix(Chain<T> chain, int order)
     {
-        // start cursor
-        c.init_cursor(order);
+        // set order
+        this.order = order;
+
+        // instantiate matrix
+        matrix = new SortedArrayList<MarkovRow<T>>();
+
+        // quantize chain
+        chain.quantize();
+
+        // set cursor to beginning
+        chain.init_cursor(order);
+
+        // loop until end is reached
+        do
+        {
+            // get current cursor
+            Cursor<T> cursor = chain.getCursor();
+
+            // get current note
+            T c = cursor.get_last();
+
+            // make new row with current id (cursor minus last element)
+            MarkovRow<T> row = new MarkovRow<T>(cursor.strip_last());
+
+            // search for row
+            int rowIndex = SortedArrayList.binSearch(matrix, row, 0, matrix.size());
+
+            // add new row if not found
+            if (rowIndex == -1)
+            {
+                row.add(c);
+                matrix.insertSorted(row);
+            }
+
+            // otherwise update row
+            else
+            {
+                matrix.get(rowIndex).increment(c);
+            }
+
+        } while (chain.advance_cursor());
+
+        // normalize matrix
+        normalize();
     }
 
-    // TODO
-    // use the matrix to compose a piece of a given length!!!!! :):)
-    // piece should begin with a random ("random") selection from the ID's of MarkovRows
-    // have a cursor variable outside the loop, length order (not order + 1)
-    // then looping length - 2 times (to account for the start), keep picking the next note
-    // and advancing your cursor by one (you have to do this manually, no outside method this time)
+    public SortedArrayList<MarkovRow<T>> getMatrix()
+    {
+        return matrix;
+    }
+
+    // use the matrix to compose a piece of a given length
     public Chain<T> compose(int length)
     {
-        return new Chain<T>();
+        prepareForComposition();
+
+        Chain<T> chain = new Chain<T>(chooseStart().getEntries());
+
+        chain.init_cursor(order - 1);
+
+        MarkovRow<T> dummyRow = new MarkovRow<T>(chain.getCursor());
+
+        T nextNote;
+
+        for (int i = 0; i < length - 2; i++)
+        {
+            int index = SortedArrayList.binSearch(matrix, dummyRow, 0, matrix.size());
+
+            // happens very rarely -- if the end of the piece is a "dead end"
+            if (index == -1)
+            {
+                index = (new Random()).nextInt(matrix.size());
+            }
+
+            nextNote = matrix.get(index).choose();
+
+            chain.add_to_chain(nextNote);
+            chain.advance_cursor();
+            dummyRow.setId(chain.getCursor());
+        }
+
+        return chain;
+    }
+
+    // chooses a random starting sequence from the row identifiers
+    private Cursor<T> chooseStart()
+    {
+        Random rand = new Random();
+
+        int randIndex = rand.nextInt(matrix.size());
+
+        return matrix.get(randIndex).getId();
+    }
+
+    // normalize all entries
+    private void normalize()
+    {
+        for (MarkovRow<T> row : matrix)
+        {
+            row.normalize();
+        }
+    }
+
+    // prepare each row (see MarkovRow prepareForComposition)
+    private void prepareForComposition()
+    {
+        for (MarkovRow<T> row : matrix)
+        {
+            row.prepareForComposition();
+        }
+    }
+
+    @Override public String toString()
+    {
+        String s = "";
+
+        for (int i = 0, len = matrix.size(); i < len; i++)
+        {
+            s += "(" + i + ") " + matrix.get(i).toString();
+        }
+
+        return s;
     }
 }

@@ -5,7 +5,6 @@ package com.company;
  */
 
 import com.company.Chainables.Chainable;
-import com.company.Cursor;
 import java.util.ArrayList;
 
 public class Chain<T extends Chainable> {
@@ -15,12 +14,23 @@ public class Chain<T extends Chainable> {
 
     // Instance vars
     private ArrayList<T> list;
-    private Cursor cursor;
+    private Cursor<T> cursor;
 
     // Create new chain
     public Chain()
     {
         list = new ArrayList<T>();
+    }
+
+    // Constructor that takes an array
+    public Chain(ArrayList<T> l)
+    {
+        list = l;
+    }
+
+    public Cursor getCursor()
+    {
+        return cursor;
     }
 
     // Add an object to the chain
@@ -54,12 +64,14 @@ public class Chain<T extends Chainable> {
     // Advance cursor to next note, returns true if successful
     public boolean advance_cursor()
     {
-        if (list.size() > cursor_pos)
+        if (list.size() > cursor_pos + 1)
         {
             for (int i = 0, l = cursor.get_len(); i < l; i++)
             {
-                cursor.set(i, list.get(cursor_pos - l + 1));
+                cursor.set(i, list.get(cursor_pos - l + i + 2));
             }
+
+            cursor_pos++;
 
             return true;
         }
@@ -79,18 +91,8 @@ public class Chain<T extends Chainable> {
         System.out.println("]");
     }
 
-    // method to create index
-    // quantizes Chain itself, then returns a sorted list with no duplicates
-    public ArrayList<Chainable> create_index()
-    {
-        this.quantize();
-
-        return new ArrayList<Chainable>();
-    }
-
     // method to quantize the chain
-    // MAY BE ISSUES WITH POINTERS
-    private void quantize()
+    public void quantize()
     {
         for (Chainable c : list)
         {
@@ -99,7 +101,7 @@ public class Chain<T extends Chainable> {
     }
 
     // returns list of objects (used mainly for decoding)
-    public ArrayList<T> getList ()
+    public ArrayList<T> getList()
     {
         return list;
     }

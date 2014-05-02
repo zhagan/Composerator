@@ -18,7 +18,7 @@ public class Duration extends Chainable {
     private final double tolerance = 1e-6;
 
     // quantization step size
-    private final double step_size = 0.05;
+    private final double step_size = 0.03;
 
     // tick rate
     // MIDI files were generated at 960 PPQN (pulses per quarter note)

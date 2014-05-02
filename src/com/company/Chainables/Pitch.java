@@ -53,7 +53,7 @@ public class Pitch extends Chainable {
     }
 
     // Pitch note constructor
-    public Pitch (String note, int oct, int id)
+    public Pitch(String note, int oct, int id)
     {
         octave = oct;
         pitch_class = note;
@@ -95,93 +95,120 @@ public class Pitch extends Chainable {
         return midi_id;
     }
 
-    public int compareTo(Chainable p)
-    {
+    public int compareTo(Chainable p) {
         String p_pitch_class = ((Pitch) p).getPitch_class();
+        int p_midi_id = ((Pitch) p).getMidi_id();
 
-        // check octave first
-        if (octave < ((Pitch) p).getOctave())
-        {
-            return -1;
-        }
-
-        else if (octave > ((Pitch) p).getOctave())
-        {
-            return 1;
-        }
-
-        // check same note/rest
-        else if (p_pitch_class.equals(pitch_class))
+        if (pitch_class.equals("R") && p_pitch_class.equals("R"))
         {
             return 0;
         }
-
-        // check rest; rest is always lower
-        else if (pitch_class.equals("R") && p_pitch_class.equals("R"))
-        {
-            return 0;
-        }
-
         else if (p_pitch_class.equals("R"))
         {
             return 1;
         }
-
         else if (pitch_class.equals("R"))
         {
             return -1;
         }
-
-        // compare notes. even if note sounds the same, note with lower letter is lower
-        else
+        else if (midi_id < p_midi_id)
         {
-            int comp = pitch_class.compareTo(p_pitch_class);
-
-            if (comp == 1 || comp == -1)
-                return comp;
-
-            // check sharp/flat
-            else if (sharp)
-            {
-                if (((Pitch) p).getSharp())
-                {
-                    return 0;
-                }
-                else
-                {
-                    return 1;
-                }
-            }
-
-            else if (flat)
-            {
-                if (((Pitch) p).getFlat())
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-
-            else
-            {
-                if (((Pitch) p).getSharp())
-                {
-                    return -1;
-                }
-                else if (((Pitch) p).getFlat())
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
+            return -1;
         }
+        else if (midi_id > p_midi_id)
+        {
+            return 1;
+        }
+
+        return 0;
     }
+//    public int compareTo(Chainable p)
+//    {
+//        String p_pitch_class = ((Pitch) p).getPitch_class();
+//
+//        // check octave first
+//        if (octave < ((Pitch) p).getOctave())
+//        {
+//            return -1;
+//        }
+//
+//        else if (octave > ((Pitch) p).getOctave())
+//        {
+//            return 1;
+//        }
+//
+//        // check same note/rest
+//        else if (p_pitch_class.equals(pitch_class))
+//        {
+//            return 0;
+//        }
+//
+//        // check rest; rest is always lower
+//        else if (pitch_class.equals("R") && p_pitch_class.equals("R"))
+//        {
+//            return 0;
+//        }
+//
+//        else if (p_pitch_class.equals("R"))
+//        {
+//            return 1;
+//        }
+//
+//        else if (pitch_class.equals("R"))
+//        {
+//            return -1;
+//        }
+//
+//        // compare notes. even if note sounds the same, note with lower letter is lower
+//        else
+//        {
+//            int comp = pitch_class.compareTo(p_pitch_class);
+//
+//            if (comp == 1 || comp == -1)
+//                return comp;
+//
+//            // check sharp/flat
+//            else if (sharp)
+//            {
+//                if (((Pitch) p).getSharp())
+//                {
+//                    return 0;
+//                }
+//                else
+//                {
+//                    return 1;
+//                }
+//            }
+//
+//            else if (flat)
+//            {
+//                if (((Pitch) p).getFlat())
+//                {
+//                    return 0;
+//                }
+//                else
+//                {
+//                    return -1;
+//                }
+//            }
+//
+//            else
+//            {
+//                if (((Pitch) p).getSharp())
+//                {
+//                    return -1;
+//                }
+//                else if (((Pitch) p).getFlat())
+//                {
+//                    return 1;
+//                }
+//                else
+//                {
+//                    return 0;
+//                }
+//            }
+//        }
+//    }
 
     // dummy method -- pitch is already quantized
     public void round() {}
