@@ -85,32 +85,10 @@ public class Note extends Chainable {
         return pitch.compareTo(((Note) n).getPitch());
     }
 
-
-    // ********* IMPORTANT ********
-    // note class will probably become obsolete because the below don't make sense
-    // will most likely process pitch / volume / duration independently
-    // ****************************
-
-    //TODO override. see description in chainable / use helpers below
-    public static ArrayList<Chainable> create_index(ArrayList<Chainable> chain)
+    // dummy -- pitch is quantized
+    public void round()
     {
-        return sort(quantize(chain));
-    }
 
-    //TODO helper to quantize
-    //this means there should be a discrete set of values (not necessarily integers)
-    //i.e. [1.19,2.28,1.21] ==> [1.2,2.3,1.2]
-    //careful with casting here and below. will need to cast from chainable to vol
-    private static ArrayList<Chainable> quantize(ArrayList<Chainable> chain)
-    {
-        return new ArrayList<Chainable>();
-    }
-
-    //TODO helper to sort and remove duplicates
-    //should be self explanatory. sorting is done using compareTO
-    private static ArrayList<Chainable> sort(ArrayList<Chainable> chain)
-    {
-        return new ArrayList<Chainable>();
     }
 }
 

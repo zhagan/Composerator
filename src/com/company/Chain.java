@@ -10,17 +10,17 @@ import java.util.ArrayList;
 
 public class Chain<T extends Chainable> {
 
+    // This is the position of the LAST element of the cursor
+    private int cursor_pos;
+
     // Instance vars
     private ArrayList<T> list;
     private Cursor cursor;
 
-    // This is the position of the LAST element of the cursor
-    private int cursor_pos;
-
     // Create new chain
     public Chain()
     {
-        this.list = new ArrayList<T>();
+        list = new ArrayList<T>();
     }
 
     // Add an object to the chain
@@ -80,12 +80,22 @@ public class Chain<T extends Chainable> {
     }
 
     // method to create index
-    // TODO -- need commented line below but has error, figure out workaround
+    // quantizes Chain itself, then returns a sorted list with no duplicates
     public ArrayList<Chainable> create_index()
     {
-        // return T.create_index(list);
+        this.quantize();
 
         return new ArrayList<Chainable>();
+    }
+
+    // method to quantize the chain
+    // MAY BE ISSUES WITH POINTERS
+    private void quantize()
+    {
+        for (Chainable c : list)
+        {
+            c.round();
+        }
     }
 
     // returns list of objects (used mainly for decoding)
@@ -93,5 +103,4 @@ public class Chain<T extends Chainable> {
     {
         return list;
     }
-
 }

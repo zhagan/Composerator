@@ -17,6 +17,9 @@ public class Duration extends Chainable {
     // tolerance for comparison
     private final double tolerance = 1e-6;
 
+    // quantization step size
+    private final double step_size = 0.05;
+
     // tick rate
     // MIDI files were generated at 960 PPQN (pulses per quarter note)
     private final double PPQN;
@@ -81,28 +84,6 @@ public class Duration extends Chainable {
         else return 1;
     }
 
-    //TODO override. see description in chainable / use helpers below
-    public static ArrayList<Chainable> create_index(ArrayList<Chainable> chain)
-    {
-        return sort(quantize(chain));
-    }
-
-    //TODO helper to quantize
-    //this means there should be a discrete set of values (not necessarily integers)
-    //i.e. [1.19,2.28,1.21] ==> [1.2,2.3,1.2]; close values become the same
-    //careful with casting here and below. will need to cast from chainable to vol
-    private static ArrayList<Chainable> quantize(ArrayList<Chainable> chain)
-    {
-        return new ArrayList<Chainable>();
-    }
-
-    //TODO helper to sort and remove duplicates
-    //should be self explanatory. sorting is done using compareTO
-    private static ArrayList<Chainable> sort(ArrayList<Chainable> chain)
-    {
-        return new ArrayList<Chainable>();
-    }
-
     // return the tick rate --> used in the output of the midi file
     public double getTick_rate()
     {
@@ -115,4 +96,9 @@ public class Duration extends Chainable {
         return PPQN;
     }
 
+    // round up to nearest quantization step
+    public void round()
+    {
+        time_s = time_s - (time_s % step_size) + step_size;
+    }
 }

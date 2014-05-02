@@ -15,9 +15,12 @@ public class BinTree<T extends MarkovRow>
     private BinTree<T> right;
     private MarkovRow row;
 
-    public BinTree()
+    // creates a one-node tree
+    public BinTree(MarkovRow r)
     {
-
+        left = null;
+        right = null;
+        row = r;
     }
 
     // TODO
@@ -34,6 +37,12 @@ public class BinTree<T extends MarkovRow>
     // TODO (easy)
     // normalize every row in the tree
     public void normalize()
+    {
+
+    }
+
+    // TODO -- balance
+    public void balance()
     {
 
     }

@@ -13,6 +13,9 @@ public class Volume extends Chainable {
     // tolerance for comparison
     private final double tolerance = 1e-6;
 
+    // quantization step size
+    private final double step_size = 0.02;
+
     // upper and lower bounds of volume range
     private static final double upperBound = 1.0;
     private static final double lowerBound = 0.0;
@@ -77,26 +80,10 @@ public class Volume extends Chainable {
         return midi_velocity;
     }
 
-
-    //TODO override. see description in chainable / use helpers below
-    public static ArrayList<Chainable> create_index(ArrayList<Chainable> chain)
+    // method to round given step size
+    // rounds up to the nearest step
+    public void round()
     {
-        return sort(quantize(chain));
-    }
-
-    //TODO helper to quantize
-    //this means there should be a discrete set of values (not necessarily integers)
-    //i.e. [1.19,2.28,1.21] ==> [1.2,2.3,1.2]
-    //careful with casting here and below. will need to cast from chainable to vol
-    private static ArrayList<Chainable> quantize(ArrayList<Chainable> chain)
-    {
-        return new ArrayList<Chainable>();
-    }
-
-    //TODO helper to sort and remove duplicates
-    //should be self explanatory. sorting is done using compareTO
-    private static ArrayList<Chainable> sort(ArrayList<Chainable> chain)
-    {
-        return new ArrayList<Chainable>();
+        vol = vol - (vol % step_size) + step_size;
     }
 }

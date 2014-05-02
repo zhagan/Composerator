@@ -99,7 +99,7 @@ public class MarkovRow<T extends Chainable> implements Comparable<MarkovRow>
     // randomly pick a note from the row based on the probabilities
     // return null if not normalized (shouldn't happen anyway)
     // commented to avoid warnings
-//    public Chainable pick()
+    //public Chainable pick()
     {
 
     }

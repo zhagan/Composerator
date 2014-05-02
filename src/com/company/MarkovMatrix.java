@@ -15,6 +15,9 @@ public class MarkovMatrix<T extends Chainable>
     // index array that shows what notes/durs/vols in the rows refer to
     private ArrayList<T> index;
 
+    // actual matrix of rows
+    private ArrayList<MarkovRow<T>> matrix;
+
     // **** NOTE ****
     // it will probably be good to use helpers for these in the spirit of good design
 
@@ -30,7 +33,8 @@ public class MarkovMatrix<T extends Chainable>
     // once done, normalize the tree
     public MarkovMatrix(Chain c, int order)
     {
-
+        // start cursor
+        c.init_cursor(order);
     }
 
     // TODO

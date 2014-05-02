@@ -8,7 +8,8 @@ import com.company.Cursor;
 
 //Cameron test commit 4/29/14
 
-public abstract class Chainable implements Comparable<Chainable> {
+public abstract class Chainable implements Comparable<Chainable>
+{
 
     // Method to determine the range, inc, and order of the chain based on
     // the specific type of chain. For example, if volumes from 0 to 0.5 were
@@ -24,12 +25,8 @@ public abstract class Chainable implements Comparable<Chainable> {
         return "";
     }
 
-    // method to create an index list given a list of chainables
-    // index list will be SORTED, QUANTIZED (if necessary), and CONTAIN NO DUPLICATES
-    // Dummy method to be overriden
-    public static ArrayList<Chainable> create_index(ArrayList<Chainable> chain)
-    {
-        return new ArrayList<Chainable>();
-    }
+    // rounds a chainable based on its quantization constants
+    // does nothing if the chainable is already discrete (i.e., pitch)
+    public abstract void round();
 }
 
