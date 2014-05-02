@@ -26,6 +26,7 @@ public class Song {
     // pulses per quarter note
     private float timebase;
 
+    // constructor that takes four chains and a timebase
     public Song(Chain pc, Chain vc, Chain dc, Chain nc, float ppqn) {
         pitch_chain = pc;
         volume_chain = vc;
@@ -36,6 +37,7 @@ public class Song {
         print_song();
     }
 
+    // prints out song to console (prints individual chains)
     public void print_song() {
         pitch_chain.print_chain();
         volume_chain.print_chain();
@@ -83,6 +85,7 @@ public class Song {
 
      */
 
+    // static bits and values
     private static final int START_TICK = 0;
     private static final int NOTE_ON = 0x90;
     private static final int NOTE_OFF = 0x80;

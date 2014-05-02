@@ -13,12 +13,12 @@ public class Composeration
 {
 
     // constructor for a composeration
-    // filePaths: an array list of filepaths of input files
-    // order: the desired order of the markov matrix
-    // output length: the desired number of notes in the output file
-    // outfilepath: path destination to which to write the otuput midi file
     public Composeration(ArrayList<String> filePaths, int order, int outputLength, String outFilePath)
     {
+        // filePaths: an array list of filepaths of input files
+        // order: the desired order of the markov matrix
+        // output length: the desired number of notes in the output file
+        // outfilepath: path destination to which to write the otuput midi file
 
         // load the sequence from the file path
         try
@@ -45,25 +45,18 @@ public class Composeration
 
             // combine all the songs into one new one
 
-            // set output song to be first song
-            Song outputSong = songs.get(0);
+            // make an array of the songs
+            Song[] songArray = (Song[]) songs.toArray();
 
-            // if at least 2 songs
-            if (songs.size() > 1)
-            {
-                // append 2nd song
-                outputSong.appendSong(songs.get(1));
-            }
+            Song outputSong = songArray[0];
 
-            // if more than 2 (only in case of 3)
-            if (songs.size() > 2)
+            // iterate through rest of songs
+            for (int i = 1; i < songArray.length; i++)
             {
-                // append the 3rd song (2nd song is already in the output)
-                outputSong.appendSong(songs.get(2));
+                outputSong.appendSong(songArray[i]);
             }
 
             // pass output song to markov processing
-
 
             // ouput fromMarkov processing
 //            Song output = new Song();
