@@ -154,7 +154,7 @@ public class Song {
             writeMetaEvent(SET_TEMPO, bt, 3, START_TICK);
 
             // set track name (meta event)
-            String TrackName = "Cannonball";
+            String TrackName = "Composerator Track 1";
             writeMetaEvent(SET_TRACK_NAME, TrackName.getBytes(), TrackName.length(), START_TICK);
 
             // set omni on
@@ -165,6 +165,12 @@ public class Song {
 
             // set instrument to Piano
             writeShortEvent(0xC0, 0x00, 0x00, START_TICK);
+
+            byte[] bet = {}; // empty array
+            writeMetaEvent(SET_END_OF_TRACK, bet, 0, current_tick);
+
+            String Track2Name = "Composerator Track 2";
+            writeMetaEvent(SET_TRACK_NAME, Track2Name.getBytes(), Track2Name.length(), START_TICK);
 
             ////////////////////////////////////////////////////////
             //////////////////////// BODY //////////////////////////
@@ -185,7 +191,6 @@ public class Song {
             ////////////////////////////////////////////////////////
 
             // set end of track
-            byte[] bet = {}; // empty array
             writeMetaEvent(SET_END_OF_TRACK, bet, 0, current_tick);
 
         }
