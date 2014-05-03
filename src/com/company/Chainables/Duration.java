@@ -101,4 +101,6 @@ public class Duration extends Chainable {
     {
         time_s = time_s - (time_s % step_size) + step_size;
     }
+
+    //
 }
