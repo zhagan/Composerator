@@ -4,12 +4,14 @@ package com.company.UI;
  * Created by garrettparrish on 5/2/14.
  */
 
-import com.company.Composeration;
+import com.company.Backend;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainUIFrame extends JFrame
 {
@@ -273,24 +275,32 @@ public class MainUIFrame extends JFrame
             }
         });
 
-        // create, add, and tie an action lister to a composerate button
+        // create, add, and tie an action listener to a composerate button
         // pressing this button when you have uploaded at least one file
         // and specified a destination path will begin the markov analysis
         composerateButton = new JButton("Composerate");
         controls.add(composerateButton);
 
         // composerate -- trigger actual events of stuff
-        composerateButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        composerateButton.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
                 int len = Integer.parseInt(outputLength.getText());
                 int order = Integer.parseInt(chainOrder.getText());
                 System.out.println("Destination: "  + destinationPath);
 
                 // if there is at least one file and there is a destination path
-                if ((filePaths.size() > 0) && (!destinationPath.equals(NOFILE))) {
-                    // create new composeration
-                    Composeration output = new Composeration(filePaths, order, len, destinationPath);
-                    output.composerate();
+                if ((filePaths.size() > 0) && (!destinationPath.equals(NOFILE)))
+                {
+                    // get current date
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date today = new Date();
+                    String dateStr = sdf.format(today);
+
+                    // set filename
+                    destinationPath += "/Composerator-" + dateStr + ".mid";
+                    Backend.composerate(filePaths, order, len, destinationPath);
                 }
             }
         });

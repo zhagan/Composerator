@@ -17,8 +17,6 @@ public class Note extends Chainable {
     // volume
     private Volume volume;
 
-    private static String newline = "\n";
-
     public Note(Pitch p, Volume v, Duration d)
     {
         pitch = p;
@@ -85,7 +83,7 @@ public class Note extends Chainable {
         return pitch.compareTo(((Note) n).getPitch());
     }
 
-    // dummy -- pitch is quantized
+    // dummy
     public void round()
     {
 

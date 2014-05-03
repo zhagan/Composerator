@@ -2,9 +2,6 @@ package com.company;
 
 import com.company.UI.MainUIFrame;
 
-import javax.sound.midi.*;
-import java.io.File;
-
 public class Main {
 
     public static void main(String[] args) {

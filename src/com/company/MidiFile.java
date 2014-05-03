@@ -4,7 +4,6 @@ package com.company;
  * Created by Garrett on 4/22/14.
  */
 
-import com.company.*;
 import com.company.Chainables.*;
 import java.io.*;
 import javax.sound.midi.*;
@@ -179,7 +178,7 @@ public class MidiFile {
         }
 
         // return the compiled song (also print song) (pass in timing resolution for output reasons)
-        return new Song(pitch_chain, volume_chain, duration_chain, note_chain, timingResolution);
+        return new Song(pitch_chain, duration_chain, volume_chain, note_chain, timingResolution);
     }
 
     // getter method for timing resolution
@@ -203,6 +202,5 @@ public class MidiFile {
             System.out.println(e.toString());
         }
     }
-
 }
 

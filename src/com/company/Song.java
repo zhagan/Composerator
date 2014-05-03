@@ -18,19 +18,20 @@ public class Song {
     // current midi track
     Track current_track;
 
-    private Chain note_chain;
-    private Chain volume_chain;
-    private Chain duration_chain;
+    // chains
     private Chain pitch_chain;
+    private Chain duration_chain;
+    private Chain volume_chain;
+    private Chain note_chain;
 
     // pulses per quarter note
     private float timebase;
 
     // constructor that takes four chains and a timebase
-    public Song(Chain pc, Chain vc, Chain dc, Chain nc, float ppqn) {
+    public Song(Chain pc, Chain dc, Chain vc, Chain nc, float ppqn) {
         pitch_chain = pc;
-        volume_chain = vc;
         duration_chain = dc;
+        volume_chain = vc;
         note_chain = nc;
         timebase = ppqn;
 
@@ -46,11 +47,6 @@ public class Song {
     }
 
     // getters
-    public Chain getNote_chain()
-    {
-        return note_chain;
-    }
-
     public Chain getVolume_chain()
     {
         return volume_chain;
@@ -64,6 +60,11 @@ public class Song {
     public Chain getPitch_chain()
     {
         return pitch_chain;
+    }
+
+    public float getTimebase()
+    {
+        return timebase;
     }
 
 
@@ -173,8 +174,9 @@ public class Song {
             boolean OFF = false;
 
             // iterate through note chain and call note events on each note
-            for (Object c : note_chain.getList()) {
-                // cast object to Note class (since it comes from generic type)
+            for (Object c : note_chain.getList())
+            {
+                // cast object to Note class
                 noteEvent((Note) c);
             }
 
@@ -250,5 +252,4 @@ public class Song {
         volume_chain.appendChain(s.volume_chain);
         duration_chain.appendChain(s.duration_chain);
     }
-
 }
