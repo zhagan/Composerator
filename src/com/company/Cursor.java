@@ -26,12 +26,12 @@ public class Cursor<T extends Chainable> implements Comparable<Cursor<T>>
     }
 
     // Get ith entry
-    public Chainable get_obj_at(int i)
+    public Chainable get(int i)
     {
         return entries.get(i);
     }
 
-    public int get_len()
+    public int getLen()
     {
         return entries.size();
     }
@@ -48,13 +48,13 @@ public class Cursor<T extends Chainable> implements Comparable<Cursor<T>>
     }
 
     // Get last entry
-    public T get_last()
+    public T getLast()
     {
         return entries.get((entries.size() - 1));
     }
 
     // Return new chainable with last element removed
-    public Cursor strip_last()
+    public Cursor stripLast()
     {
         ArrayList<T> newEntries = new ArrayList<T>();
 
@@ -72,7 +72,7 @@ public class Cursor<T extends Chainable> implements Comparable<Cursor<T>>
         for (int i = 0, len = entries.size(); i < len; i++)
         {
             // compare corresponding entries
-            int comp = entries.get(i).compareTo(cur.get_obj_at(i));
+            int comp = entries.get(i).compareTo(cur.get(i));
 
             if (comp < 0)
                 return -1;
