@@ -5,13 +5,14 @@ import java.util.ArrayList;
 /*
  * Created by Garrett on 4/21/14.
  */
+
 public class Pitch extends Chainable {
 
     // i.e. "C" or "B"
-    private String pitch_class;
+    private String pitchClass;
 
     // midi identifier
-    private int midi_id;
+    private int midiId;
 
     /*
      * midi_id corresponds to the following midi code taken from:
@@ -43,37 +44,36 @@ public class Pitch extends Chainable {
     private boolean flat;
     private boolean sharp;
 
-    // Default constructor for rest pitches
+    // default constructor for rest pitches
     public Pitch()
     {
         // rest values
-        pitch_class = "R";
+        pitchClass = "R";
         octave = 0;
-        midi_id = 128;
+        midiId = 128;
     }
 
     // Pitch note constructor
     public Pitch(String note, int oct, int id)
     {
         octave = oct;
-        pitch_class = note;
-        midi_id = id;
-        System.out.println(id);
+        pitchClass = note;
+        midiId = id;
 
         if (note.contains("#")) { sharp = true; }
         if (note.contains("b")) { flat = true; }
     }
 
     // description method to print
-    public String toString() { return pitch_class + octave; }
+    public String toString() { return pitchClass + octave; }
 
     // get class name
     public static String classToString() { return "Pitch"; }
 
     // getter methods for instance variables
-    public String getPitch_class()
+    public String getPitchClass()
     {
-        return pitch_class;
+        return pitchClass;
     }
 
     public int getOctave()
@@ -91,38 +91,41 @@ public class Pitch extends Chainable {
         return sharp;
     }
 
-    public int getMidi_id()
+    public int getMidiId()
     {
-        return midi_id;
+        return midiId;
     }
 
     public int compareTo(Chainable p) {
-        String p_pitch_class = ((Pitch) p).getPitch_class();
-        int p_midi_id = ((Pitch) p).getMidi_id();
+        String pPitchClass = ((Pitch) p).getPitchClass();
+        int pMidiId = ((Pitch) p).getMidiId();
 
-        if (pitch_class.equals("R") && p_pitch_class.equals("R"))
+        if (pitchClass.equals("R") && pPitchClass.equals("R"))
         {
             return 0;
         }
-        else if (p_pitch_class.equals("R"))
+        else if (pPitchClass.equals("R"))
         {
             return 1;
         }
-        else if (pitch_class.equals("R"))
+        else if (pitchClass.equals("R"))
         {
             return -1;
         }
-        else if (midi_id < p_midi_id)
+        else if (midiId < pMidiId)
         {
             return -1;
         }
-        else if (midi_id > p_midi_id)
+        else if (midiId > pMidiId)
         {
             return 1;
         }
 
         return 0;
     }
+
+
+    // compare to method (not used)
 //    public int compareTo(Chainable p)
 //    {
 //        String p_pitch_class = ((Pitch) p).getPitch_class();

@@ -21,6 +21,10 @@ import java.io.FileInputStream;
 
 // Represents an audio file for processing into input
 
+// This class is not used in this version of composerator
+// the purpose of this class was to be able to deduce a midi sequence
+// from a wav audio file (by taking the fft and comparing to a
+// frequency spectrum etc.)
 public class Audio_File {
 
     private byte[] fileBytes;

@@ -55,21 +55,10 @@ public class Duration extends Chainable {
         return tickLength;
     }
 
-    public String desc()
-    {
-        return "Time: " + Double.toString(time_s) + "s ";
-    }
-
     @Override
     public String toString()
     {
         return String.format("%1$,.2f", time_s);
-    }
-
-    // get class name
-    public static String classToString()
-    {
-        return "Duration";
     }
 
     // ASSUMES chainable is a duration

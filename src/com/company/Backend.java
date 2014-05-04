@@ -77,9 +77,9 @@ public class Backend
     private static Song MarkovProcess(Song input, int order, int len)
     {
         // do Markov analysis on each attribute
-        MarkovMatrix<Pitch> pitchMatrix = new MarkovMatrix<Pitch>(input.getpitchChain(), order);
-        MarkovMatrix<Duration> durationMatrix = new MarkovMatrix<Duration>(input.getdurationChain(), order);
-        MarkovMatrix<Volume> volumeMatrix = new MarkovMatrix<Volume>(input.getvolumeChain(), order);
+        MarkovMatrix<Pitch> pitchMatrix = new MarkovMatrix<Pitch>(input.getPitchChain(), order);
+        MarkovMatrix<Duration> durationMatrix = new MarkovMatrix<Duration>(input.getDurationChain(), order);
+        MarkovMatrix<Volume> volumeMatrix = new MarkovMatrix<Volume>(input.getVolumeChain(), order);
 
         // compose new chain for each attribute
         Chain<Pitch> pitchChain = pitchMatrix.compose(len);

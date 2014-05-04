@@ -50,6 +50,17 @@ public class MainUIFrame extends JFrame
 
     public void addComponentsToPane(final Container pane)
     {
+
+/* MEANT FOR BETTER DESIGN OF THIS SECTION
+        // array lists for iterating through relevant variables when initializing the UI
+        ArrayList<JButton> chooseFileButtons = new ArrayList<JButton>(){{add(chooseFile1); add(chooseFile2); add(chooseFile3);}};
+        ArrayList<String> chooseFileButtonDescriptions = new ArrayList<String>(){{add("File 1"); add("File 2"); add("File 3");}};
+        String removeButtonDescription = "Remove";
+        ArrayList<JButton> cancelFileButtons = new ArrayList<JButton>(){{add(cancelFile1); add(cancelFile2); add(cancelFile3);}};
+        ArrayList<JTextArea> fileLogs = new ArrayList<JTextArea>(){{add(file1Log); add(file2Log); add(file3Log);}};
+        ArrayList<JScrollPane> logScrollPanes = new ArrayList<JScrollPane>(){{add(log1ScrollPane); add(log2ScrollPane); add(log3ScrollPane);}};
+*/
+
         // create main panel
         final JPanel fileInput = new JPanel();
 

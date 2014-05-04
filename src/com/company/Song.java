@@ -14,50 +14,50 @@ public class Song {
     private Sequence midiSequence;
 
     // current midi track
-    Track current_track;
+    Track currentTrack;
 
     // chains
-    private Chain pitch_chain;
-    private Chain duration_chain;
-    private Chain volume_chain;
-    private Chain note_chain;
+    private Chain pitchChain;
+    private Chain durationChain;
+    private Chain volumeChain;
+    private Chain noteChain;
 
     // pulses per quarter note
     private float timebase;
 
     // constructor that takes four chains and a timebase
     public Song(Chain pc, Chain dc, Chain vc, Chain nc, float ppqn) {
-        pitch_chain = pc;
-        duration_chain = dc;
-        volume_chain = vc;
-        note_chain = nc;
+        pitchChain = pc;
+        durationChain = dc;
+        volumeChain = vc;
+        noteChain = nc;
         timebase = ppqn;
 
-        print_song();
+        printSong();
     }
 
     // prints out song to console (prints individual chains)
-    public void print_song() {
-        pitch_chain.print_chain();
-        volume_chain.print_chain();
-        duration_chain.print_chain();
-        note_chain.print_chain();
+    public void printSong() {
+        pitchChain.printChain();;
+        volumeChain.printChain();
+        durationChain.printChain();
+        noteChain.printChain();
     }
 
     // getters
-    public Chain getVolume_chain()
+    public Chain getVolumeChain()
     {
-        return volume_chain;
+        return volumeChain;
     }
 
-    public Chain getDuration_chain()
+    public Chain getDurationChain()
     {
-        return duration_chain;
+        return durationChain;
     }
 
-    public Chain getPitch_chain()
+    public Chain getPitchChain()
     {
-        return pitch_chain;
+        return pitchChain;
     }
 
     public float getTimebase()
@@ -115,10 +115,10 @@ public class Song {
     private static final int SET_END_OF_TRACK = 0x2F;
 
     // tick counter for going through song
-    int current_tick = START_TICK;
+    int currentTick = START_TICK;
 
     // desired output tempo (maybe have the user specify this) ?
-    float output_tempo = 120;
+    float outputTempo = 120;
 
     // converts the song back to a midi file
     public MidiFile toMidiFile() {
@@ -127,7 +127,7 @@ public class Song {
             midiSequence = new Sequence(javax.sound.midi.Sequence.PPQ, (int) timebase);
 
             // create first track
-            current_track = midiSequence.createTrack();
+            currentTrack = midiSequence.createTrack();
 
             ////////////////////////////////////////////////////////
             /////////////////////// HEADER /////////////////////////
@@ -140,12 +140,12 @@ public class Song {
             sm.setMessage(b, 6);
 
             MidiEvent me = new MidiEvent(sm, START_TICK);
-            current_track.add(me);
+            currentTrack.add(me);
 
             // calculate tempo in bytes
-            float micro_per_minute = 60000000;
-            int micro_per_pulse = (int) (micro_per_minute / output_tempo);
-            byte[] bytes = ByteBuffer.allocate(4).putInt(micro_per_pulse).array();
+            float microPerMinute = 60000000;
+            int microPerPulse = (int) (microPerMinute / outputTempo);
+            byte[] bytes = ByteBuffer.allocate(4).putInt(microPerPulse).array();
 
             // three bytes represent number of microseconds per pulse
             byte[] bt = {bytes[1], bytes[2], bytes[3]};
@@ -169,7 +169,7 @@ public class Song {
             ////////////////////////////////////////////////////////
 
             // iterate through note chain and call note events on each note
-            for (Object c : note_chain.getList())
+            for (Object c : noteChain.getList())
             {
                 // cast object to Note class
                 noteEvent((Note) c);
@@ -181,7 +181,7 @@ public class Song {
 
             // set end of track
             byte[] bet = {}; // empty array
-            writeMetaEvent(SET_END_OF_TRACK, bet, 0, current_tick);
+            writeMetaEvent(SET_END_OF_TRACK, bet, 0, currentTick);
 
         }
         catch (Exception e)
@@ -207,17 +207,17 @@ public class Song {
         Volume v = n.getVolume();
         Duration d = n.getDuration();
 
-        int ending_tick = current_tick + (int) d.getTick_length();
+        int endingTick = currentTick + (int) d.getTickLength();
 
-        int note = p.getMidi_id();
+        int note = p.getMidiId();
         if (note != rest)
         {
-            int vel = v.getMidi_velocity();
-            writeShortEvent(NOTE_ON, note, vel, current_tick);
-            writeShortEvent(NOTE_OFF, note, vel, ending_tick);
+            int vel = v.getMidiVelocity();
+            writeShortEvent(NOTE_ON, note, vel, currentTick);
+            writeShortEvent(NOTE_OFF, note, vel, endingTick);
 
             // set current tick to latest tick val
-            current_tick = ending_tick;
+            currentTick = endingTick;
         }
     }
 
@@ -230,7 +230,7 @@ public class Song {
             System.out.println(e.toString());
         }
         MidiEvent me = new MidiEvent(mt, (long) tick);
-        current_track.add(me);
+        currentTrack.add(me);
     }
 
     // write a short message to current track at certain tick
@@ -242,16 +242,16 @@ public class Song {
             System.out.println(e.toString());
         }
         MidiEvent me = new MidiEvent(sm, (long) tick);
-        current_track.add(me);
+        currentTrack.add(me);
     }
 
     // appends a song to this current song
     public void appendSong(Song s)
     {
         // append all the individual chains within the song
-        note_chain.appendChain(s.note_chain);
-        pitch_chain.appendChain(s.pitch_chain);
-        volume_chain.appendChain(s.volume_chain);
-        duration_chain.appendChain(s.duration_chain);
+        noteChain.appendChain(s.noteChain);
+        pitchChain.appendChain(s.pitchChain);
+        volumeChain.appendChain(s.volumeChain);
+        durationChain.appendChain(s.durationChain);
     }
 }
