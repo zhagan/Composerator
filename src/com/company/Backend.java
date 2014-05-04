@@ -37,7 +37,7 @@ public class Backend
                 MidiFile midi = new MidiFile(ms);
 
                 // decode midi file to song
-                Song midiSong = midi.to_song();
+                Song midiSong = midi.toSong();
 
                 System.out.println("\nMIDI TO SONG SUCCESSFUL");
 
@@ -77,9 +77,9 @@ public class Backend
     private static Song MarkovProcess(Song input, int order, int len)
     {
         // do Markov analysis on each attribute
-        MarkovMatrix<Pitch> pitchMatrix = new MarkovMatrix<Pitch>(input.getPitch_chain(), order);
-        MarkovMatrix<Duration> durationMatrix = new MarkovMatrix<Duration>(input.getDuration_chain(), order);
-        MarkovMatrix<Volume> volumeMatrix = new MarkovMatrix<Volume>(input.getVolume_chain(), order);
+        MarkovMatrix<Pitch> pitchMatrix = new MarkovMatrix<Pitch>(input.getpitchChain(), order);
+        MarkovMatrix<Duration> durationMatrix = new MarkovMatrix<Duration>(input.getdurationChain(), order);
+        MarkovMatrix<Volume> volumeMatrix = new MarkovMatrix<Volume>(input.getvolumeChain(), order);
 
         // compose new chain for each attribute
         Chain<Pitch> pitchChain = pitchMatrix.compose(len);
@@ -89,16 +89,16 @@ public class Backend
         // create note chain
         Chain<Note> noteChain = new Chain<Note>();
 
-        pitchChain.print_chain();
-        durationChain.print_chain();
-        volumeChain.print_chain();
+        pitchChain.printChain();
+        durationChain.printChain();
+        volumeChain.printChain();
 
         for (int i = 0; i < len; i++)
         {
             Note n = new Note(pitchChain.getList().get(i), volumeChain.getList().get(i),
                     durationChain.getList().get(i));
 
-            noteChain.add_to_chain(n);
+            noteChain.addToChain(n);
         }
 
         // create output song

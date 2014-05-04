@@ -14,7 +14,7 @@ public class Chain<T extends Chainable> {
     private Cursor cursor;
 
     // This is the position of the LAST element of the cursor
-    private int cursor_pos;
+    private int cursorPos;
 
     // Create new chain
     public Chain()
@@ -34,13 +34,13 @@ public class Chain<T extends Chainable> {
     }
 
     // Add an object to the chain
-    public void add_to_chain(T obj)
+    public void addToChain(T obj)
     {
         list.add(obj);
     }
 
     // Initialize the cursor (length = order + 1) to the first elements
-    public boolean init_cursor(int order)
+    public boolean initCursor(int order)
     {
         if (list.size() >= order)
         {
@@ -53,7 +53,7 @@ public class Chain<T extends Chainable> {
             }
 
             cursor = new Cursor(cur);
-            cursor_pos = order;
+            cursorPos = order;
 
             return true;
         }
@@ -62,16 +62,16 @@ public class Chain<T extends Chainable> {
     }
 
     // Advance cursor to next note, returns true if successful
-    public boolean advance_cursor()
+    public boolean advanceCursor()
     {
-        if (list.size() > cursor_pos + 1)
+        if (list.size() > cursorPos + 1)
         {
-            for (int i = 0, l = cursor.get_len(); i < l; i++)
+            for (int i = 0, l = cursor.getLen(); i < l; i++)
             {
-                cursor.set(i, list.get(cursor_pos - l + i + 2));
+                cursor.set(i, list.get(cursorPos - l + i + 2));
             }
 
-            cursor_pos++;
+            cursorPos++;
 
             return true;
         }
@@ -81,7 +81,7 @@ public class Chain<T extends Chainable> {
 
     // Print method to be implemented by inheritors
     // NOTE type T must have classToString method
-    public void print_chain()
+    public void printChain()
     {
         System.out.print(T.classToString() + " (" + list.size() + "): [");
         for (T c : list)

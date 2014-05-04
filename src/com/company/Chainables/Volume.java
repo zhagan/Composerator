@@ -14,16 +14,16 @@ public class Volume extends Chainable {
     private final double tolerance = 1e-6;
 
     // quantization step size
-    private final double step_size = 0.02;
+    private final double stepSize = 0.02;
 
     // upper and lower bounds of volume range
-    private static final double upperBound = 1.0;
-    private static final double lowerBound = 0.0;
+    private final double upperBound = 1.0;
+    private final double lowerBound = 0.0;
 
     // Java MIDI library's double range of velocities
-    private static final double velocity_range = 127.0;
+    private final double velocityRange = 127.0;
 
-    private int midi_velocity;
+    private int midiVelocity;
 
     // Default constructor (for rests)
     public Volume()
@@ -32,16 +32,16 @@ public class Volume extends Chainable {
     }
 
     // Standard constructor (for notes w/ input velocities)
-    public Volume(int start_velocity, int end_velocity)
+    public Volume(int startVelocity, int endVelocity)
     {
         // no end velocity -- map just starting velocity
-        if (end_velocity == 0)
+        if (endVelocity == 0)
         {
             // Map 0.0 - 127.0 to 0.0 to 1.0
-            vol = (upperBound - lowerBound) * (start_velocity / velocity_range);
+            vol = (upperBound - lowerBound) * (startVelocity / velocityRange);
 
             // set midi velocity to input (used for decoding afterward)
-            midi_velocity = start_velocity;
+            midiVelocity = startVelocity;
         }
         else
         {
@@ -75,15 +75,15 @@ public class Volume extends Chainable {
     }
 
     // return velocity
-    public int getMidi_velocity ()
+    public int getMidiVelocity ()
     {
-        return midi_velocity;
+        return midiVelocity;
     }
 
     // method to round given step size
     // rounds up to the nearest step
     public void round()
     {
-        vol = vol - (vol % step_size) + step_size;
+        vol = vol - (vol % stepSize) + stepSize;
     }
 }

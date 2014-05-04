@@ -32,7 +32,7 @@ public class MarkovMatrix<T extends Chainable>
         chain.quantize();
 
         // set cursor to beginning
-        chain.init_cursor(order);
+        chain.initCursor(order);
 
         // loop until end is reached
         do
@@ -41,10 +41,10 @@ public class MarkovMatrix<T extends Chainable>
             Cursor<T> cursor = chain.getCursor();
 
             // get current note
-            T c = cursor.get_last();
+            T c = cursor.getLast();
 
             // make new row with current id (cursor minus last element)
-            MarkovRow<T> row = new MarkovRow<T>(cursor.strip_last());
+            MarkovRow<T> row = new MarkovRow<T>(cursor.stripLast());
 
             // search for row
             int rowIndex = SortedArrayList.binSearch(matrix, row, 0, matrix.size());
@@ -62,7 +62,7 @@ public class MarkovMatrix<T extends Chainable>
                 matrix.get(rowIndex).increment(c);
             }
 
-        } while (chain.advance_cursor());
+        } while (chain.advanceCursor());
 
         // normalize matrix
         normalize();
@@ -80,7 +80,7 @@ public class MarkovMatrix<T extends Chainable>
 
         Chain<T> chain = new Chain<T>(chooseStart().getEntries());
 
-        chain.init_cursor(order - 1);
+        chain.initCursor(order - 1);
 
         MarkovRow<T> dummyRow = new MarkovRow<T>(chain.getCursor());
 
@@ -98,8 +98,8 @@ public class MarkovMatrix<T extends Chainable>
 
             nextNote = matrix.get(index).choose();
 
-            chain.add_to_chain(nextNote);
-            chain.advance_cursor();
+            chain.addToChain(nextNote);
+            chain.advanceCursor();
             dummyRow.setId(chain.getCursor());
         }
 

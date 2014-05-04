@@ -40,13 +40,13 @@ public class MidiFile {
     }
 
     // decodes the midi file to a song object
-    public Song to_song()
+    public Song toSong()
     {
         // initialize all the chain variables
-        Chain pitch_chain = new Chain<Pitch>();
-        Chain volume_chain = new Chain<Volume>();
-        Chain duration_chain = new Chain<Duration>();
-        Chain note_chain = new Chain<Note>();
+        Chain pitchChain = new Chain<Pitch>();
+        Chain volumeChain = new Chain<Volume>();
+        Chain durationChain = new Chain<Duration>();
+        Chain noteChain = new Chain<Note>();
 
         // iterate through MIDI tracks
         int trackNumber = 0;
@@ -64,16 +64,16 @@ public class MidiFile {
             System.out.println();
 
             // starting and ending ticks of a MIDI note
-            long note_tick_start = 0;
-            long note_tick_end;
+            long noteTickStart = 0;
+            long noteTickEnd;
 
             // starting and ending ticks of a MIDI rest
-            long rest_tick_start = 0;
-            long rest_tick_end;
+            long restTickStart = 0;
+            long restTickEnd;
 
             // starting and ending velocities of MIDI note
-            int velocity_start = 0;
-            int velocity_end;
+            int velocityStart = 0;
+            int velocityEnd;
 
             // iterate through each message in the track
             for (int i = 0; i < track.size(); i++)
@@ -105,64 +105,61 @@ public class MidiFile {
                     // note's velocity (eventually mapped to volume)
                     int velocity = sm.getData2();
 
-                    String note_state = null;
+                    String noteState = null;
 
                     // NOTE STATES
                     if (sm.getCommand() == NOTE_ON)
                     {
                         // note has begun to be registered, rest has ended
-                        note_tick_start = tick;
-                        velocity_start = velocity;
-                        rest_tick_end = tick;
+                        noteTickStart = tick;
+                        velocityStart = velocity;
+                        restTickEnd = tick;
 
                         // insert a rest object into all 4 chains with rest-specific values for each
 
                         // initialize new rest with just a duration (default values of
                         // pitch and volume are encapsulated in the rest constructor)
-                        Duration rest_duration = new Duration(rest_tick_start, rest_tick_end, timingResolution);
+                        Duration restDuration = new Duration(restTickStart, restTickEnd, timingResolution);
 
                         // only generate and add the rests if they last for a usable amount of time
-                        if (rest_duration.getTime() > 0.0)
+                        if (restDuration.getTime() > 0.0)
                         {
                             // create a new rest object (using duration constructor)
-                            Rest current_rest = new Rest(rest_duration);
+                            Rest currentRest = new Rest(restDuration);
 
                             // add rest versions of each object to their respective chains
-                            pitch_chain.add_to_chain(new Pitch());
-                            volume_chain.add_to_chain(new Volume());
-                            duration_chain.add_to_chain(rest_duration);
+                            pitchChain.addToChain(new Pitch());
+                            volumeChain.addToChain(new Volume());
+                            durationChain.addToChain(restDuration);
 
                             // add raw rest (since it's a subclass of Note) to the note chain
-                            note_chain.add_to_chain(current_rest);
+                            noteChain.addToChain(currentRest);
                         }
                     }
                     else if (sm.getCommand() == NOTE_OFF)
                     {
                         // note has registered, rest has begun
-                        note_tick_end = tick;
-                        velocity_end = velocity;
-                        rest_tick_start = tick;
+                        noteTickEnd = tick;
+                        velocityEnd = velocity;
+                        restTickStart = tick;
 
                         // create a new pitch object
-                        Pitch current_pitch = new Pitch(noteName, octave, key);
+                        Pitch currentPitch = new Pitch(noteName, octave, key);
 
                         // create a new volume object
-                        Volume current_volume = new Volume(velocity_start, velocity_end);
+                        Volume currentVolume = new Volume(velocityStart, velocityEnd);
 
                         // create a new duration object (passing timing resolution)
-                        Duration current_duration = new Duration(note_tick_start, note_tick_end, timingResolution);
+                        Duration currentDuration = new Duration(noteTickStart, noteTickEnd, timingResolution);
 
                         // encapsulate a new note object
-                        Note current_note = new Note(current_pitch, current_volume, current_duration);
-
-                        // print out current_note description
-                        System.out.println(current_note.toString());
+                        Note currentNote = new Note(currentPitch, currentVolume, currentDuration);
 
                         // add current values to chains
-                        pitch_chain.add_to_chain(current_pitch);
-                        volume_chain.add_to_chain(current_volume);
-                        duration_chain.add_to_chain(current_duration);
-                        note_chain.add_to_chain(current_note);
+                        pitchChain.addToChain(currentPitch);
+                        volumeChain.addToChain(currentVolume);
+                        durationChain.addToChain(currentDuration);
+                        noteChain.addToChain(currentNote);
                     }
                     else
                     {
@@ -178,7 +175,7 @@ public class MidiFile {
         }
 
         // return the compiled song (also print song) (pass in timing resolution for output reasons)
-        return new Song(pitch_chain, duration_chain, volume_chain, note_chain, timingResolution);
+        return new Song(pitchChain, durationChain, volumeChain, noteChain, timingResolution);
     }
 
     // getter method for timing resolution

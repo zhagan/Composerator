@@ -12,13 +12,13 @@ public class Duration extends Chainable {
 
     // length of the duration
     private double time_s;
-    private long tick_length;
+    private long tickLength;
 
     // tolerance for comparison
     private final double tolerance = 1e-6;
 
     // quantization step size
-    private final double step_size = 0.07;
+    private final double stepSize = 0.07;
 
     // tick rate
     // MIDI files were generated at 960 PPQN (pulses per quarter note)
@@ -40,9 +40,9 @@ public class Duration extends Chainable {
         PPQN = ppqn;
         tick_rate = (tempo / 60.0) * PPQN;
 
-        tick_length = tick2 - tick1;
+        tickLength = tick2 - tick1;
         // do math to determine actual duration in seconds
-        time_s = (tick_length / tick_rate);
+        time_s = (tickLength / tick_rate);
     }
 
     public double getTime()
@@ -50,9 +50,9 @@ public class Duration extends Chainable {
         return time_s;
     }
 
-    public long getTick_length()
+    public long getTickLength()
     {
-        return tick_length;
+        return tickLength;
     }
 
     public String desc()
@@ -99,7 +99,7 @@ public class Duration extends Chainable {
     // round up to nearest quantization step
     public void round()
     {
-        time_s = time_s - (time_s % step_size) + step_size;
+        time_s = time_s - (time_s % stepSize) + stepSize;
     }
 
     //

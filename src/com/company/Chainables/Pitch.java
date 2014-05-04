@@ -8,13 +8,13 @@ import java.util.ArrayList;
 public class Pitch extends Chainable {
 
     // i.e. "C" or "B"
-    private String pitch_class;
+    private String pitchClass;
 
     // midi identifier
-    private int midi_id;
+    private int midiId;
 
     /*
-     * midi_id corresponds to the following midi code taken from:
+     * midiId corresponds to the following midi code taken from:
      * http://www.midimountain.com/midi/midi_note_numbers.html
      *
      * Octave |   C |  C# |   D |  D# |   E |   F |  F# |   G |  G# |   A |  A# |   B
@@ -47,32 +47,32 @@ public class Pitch extends Chainable {
     public Pitch()
     {
         // rest values
-        pitch_class = "R";
+        pitchClass = "R";
         octave = 0;
-        midi_id = 128;
+        midiId = 128;
     }
 
     // Pitch note constructor
     public Pitch(String note, int oct, int id)
     {
         octave = oct;
-        pitch_class = note;
-        midi_id = id;
+        pitchClass = note;
+        midiId = id;
 
         if (note.contains("#")) { sharp = true; }
         if (note.contains("b")) { flat = true; }
     }
 
     // description method to print
-    public String toString() { return pitch_class + octave; }
+    public String toString() { return pitchClass + octave; }
 
     // get class name
     public static String classToString() { return "Pitch"; }
 
     // getter methods for instance variables
-    public String getPitch_class()
+    public String getpitchClass()
     {
-        return pitch_class;
+        return pitchClass;
     }
 
     public int getOctave()
@@ -90,32 +90,32 @@ public class Pitch extends Chainable {
         return sharp;
     }
 
-    public int getMidi_id()
+    public int getMidiId()
     {
-        return midi_id;
+        return midiId;
     }
 
     public int compareTo(Chainable p) {
-        String p_pitch_class = ((Pitch) p).getPitch_class();
-        int p_midi_id = ((Pitch) p).getMidi_id();
+        String pPitchClass = ((Pitch) p).getpitchClass();
+        int pMidiId = ((Pitch) p).getMidiId();
 
-        if (pitch_class.equals("R") && p_pitch_class.equals("R"))
+        if (pitchClass.equals("R") && pPitchClass.equals("R"))
         {
             return 0;
         }
-        else if (p_pitch_class.equals("R"))
+        else if (pPitchClass.equals("R"))
         {
             return 1;
         }
-        else if (pitch_class.equals("R"))
+        else if (pitchClass.equals("R"))
         {
             return -1;
         }
-        else if (midi_id < p_midi_id)
+        else if (midiId < pMidiId)
         {
             return -1;
         }
-        else if (midi_id > p_midi_id)
+        else if (midiId > pMidiId)
         {
             return 1;
         }
@@ -124,7 +124,7 @@ public class Pitch extends Chainable {
     }
 //    public int compareTo(Chainable p)
 //    {
-//        String p_pitch_class = ((Pitch) p).getPitch_class();
+//        String pPitchClass = ((Pitch) p).getpitchClass();
 //
 //        // check octave first
 //        if (octave < ((Pitch) p).getOctave())
@@ -138,23 +138,23 @@ public class Pitch extends Chainable {
 //        }
 //
 //        // check same note/rest
-//        else if (p_pitch_class.equals(pitch_class))
+//        else if (pPitchClass.equals(pitchClass))
 //        {
 //            return 0;
 //        }
 //
 //        // check rest; rest is always lower
-//        else if (pitch_class.equals("R") && p_pitch_class.equals("R"))
+//        else if (pitchClass.equals("R") && pPitchClass.equals("R"))
 //        {
 //            return 0;
 //        }
 //
-//        else if (p_pitch_class.equals("R"))
+//        else if (pPitchClass.equals("R"))
 //        {
 //            return 1;
 //        }
 //
-//        else if (pitch_class.equals("R"))
+//        else if (pitchClass.equals("R"))
 //        {
 //            return -1;
 //        }
@@ -162,7 +162,7 @@ public class Pitch extends Chainable {
 //        // compare notes. even if note sounds the same, note with lower letter is lower
 //        else
 //        {
-//            int comp = pitch_class.compareTo(p_pitch_class);
+//            int comp = pitchClass.compareTo(pPitchClass);
 //
 //            if (comp == 1 || comp == -1)
 //                return comp;
