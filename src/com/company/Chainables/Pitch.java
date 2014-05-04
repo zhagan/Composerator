@@ -58,6 +58,7 @@ public class Pitch extends Chainable {
         octave = oct;
         pitch_class = note;
         midi_id = id;
+        System.out.println(id);
 
         if (note.contains("#")) { sharp = true; }
         if (note.contains("b")) { flat = true; }

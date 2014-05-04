@@ -54,7 +54,6 @@ public class MidiFile {
         // iterate through available tracks
         for (Track track :  midiSequence.getTracks())
         {
-
             // for labeling track number
             trackNumber++;
 
@@ -94,6 +93,7 @@ public class MidiFile {
 
                     // key pressed
                     int key = sm.getData1();
+                    System.out.println(key);
 
                     // note's octave
                     int octave = (key / NOTES_PER_OCTAVE) - 1;
@@ -104,8 +104,6 @@ public class MidiFile {
 
                     // note's velocity (eventually mapped to volume)
                     int velocity = sm.getData2();
-
-                    String note_state = null;
 
                     // NOTE STATES
                     if (sm.getCommand() == NOTE_ON)
@@ -122,8 +120,11 @@ public class MidiFile {
                         Duration rest_duration = new Duration(rest_tick_start, rest_tick_end, timingResolution);
 
                         // only generate and add the rests if they last for a usable amount of time
+                        // i.e. notes aren't directly after one another
                         if (rest_duration.getTime() > 0.0)
                         {
+                            System.out.println("Rested for: " + rest_duration.getTime());
+
                             // create a new rest object (using duration constructor)
                             Rest current_rest = new Rest(rest_duration);
 
@@ -135,6 +136,9 @@ public class MidiFile {
                             // add raw rest (since it's a subclass of Note) to the note chain
                             note_chain.add_to_chain(current_rest);
                         }
+
+                        System.out.println("Note begun: " + noteName);
+
                     }
                     else if (sm.getCommand() == NOTE_OFF)
                     {
@@ -156,18 +160,24 @@ public class MidiFile {
                         Note current_note = new Note(current_pitch, current_volume, current_duration);
 
                         // print out current_note description
-                        System.out.println(current_note.toString());
+                        System.out.println("Note ended: " + current_note.toString());
 
                         // add current values to chains
                         pitch_chain.add_to_chain(current_pitch);
                         volume_chain.add_to_chain(current_volume);
                         duration_chain.add_to_chain(current_duration);
                         note_chain.add_to_chain(current_note);
+
                     }
                     else
                     {
                         System.out.println("Other command: " + sm.getCommand());
                     }
+                }
+                else if (message instanceof MetaMessage)
+                {
+                    MetaMessage mm = (MetaMessage) message;
+                    System.out.println("Meta Message: " + mm.toString());
                 }
                 else
                 {

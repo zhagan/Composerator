@@ -10,8 +10,6 @@ import com.company.Chainables.*;
 
 public class Song {
 
-    private static final String outputDirectory = "/Users/garrettparrish/Documents/Garrett/Projects/Composerator/Composerator";
-
     // midi sequence
     private Sequence midiSequence;
 
@@ -166,18 +164,9 @@ public class Song {
             // set instrument to Piano
             writeShortEvent(0xC0, 0x00, 0x00, START_TICK);
 
-            byte[] bet = {}; // empty array
-            writeMetaEvent(SET_END_OF_TRACK, bet, 0, current_tick);
-
-            String Track2Name = "Composerator Track 2";
-            writeMetaEvent(SET_TRACK_NAME, Track2Name.getBytes(), Track2Name.length(), START_TICK);
-
             ////////////////////////////////////////////////////////
             //////////////////////// BODY //////////////////////////
             ////////////////////////////////////////////////////////
-
-            boolean ON = true;
-            boolean OFF = false;
 
             // iterate through note chain and call note events on each note
             for (Object c : note_chain.getList())
@@ -191,6 +180,7 @@ public class Song {
             ////////////////////////////////////////////////////////
 
             // set end of track
+            byte[] bet = {}; // empty array
             writeMetaEvent(SET_END_OF_TRACK, bet, 0, current_tick);
 
         }
@@ -207,21 +197,28 @@ public class Song {
     //////////////// MIDI HELPER METHODS ///////////////////
     ////////////////////////////////////////////////////////
 
+    static final int rest = 128;
+
     // encapsulation method to map note to midi event
     private void noteEvent(Note n) {
         // maps string to a byte value
         Pitch p = n.getPitch();
+
         Volume v = n.getVolume();
         Duration d = n.getDuration();
 
         int ending_tick = current_tick + (int) d.getTick_length();
-        int note = p.getMidi_id() - 1;
-        int vel = v.getMidi_velocity();
-        writeShortEvent(NOTE_ON, note, vel, current_tick);
-        writeShortEvent(NOTE_OFF, note, vel, ending_tick);
 
-        // set current tick to latest tick val
-        current_tick = ending_tick;
+        int note = p.getMidi_id();
+        if (note != rest)
+        {
+            int vel = v.getMidi_velocity();
+            writeShortEvent(NOTE_ON, note, vel, current_tick);
+            writeShortEvent(NOTE_OFF, note, vel, ending_tick);
+
+            // set current tick to latest tick val
+            current_tick = ending_tick;
+        }
     }
 
     // write a meta event to current track at certain tick
