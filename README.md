@@ -1,7 +1,7 @@
 Composerator
 ============
 
-Garrett Parrish | Billy Cox | Cameron Clarke
+Garrett Parrish
 
 To compile composerator, please open the Composerator directory that this readme file is placed in via the Java development of your choice: IntelliJ IDEA (which was used to develop this application), Eclipse, or any other. Once opened, run the the main function in the Main.java class via whatever method the IDE you choose specifies. Once run, the UI will startup and will be self-explanatory. 
 
