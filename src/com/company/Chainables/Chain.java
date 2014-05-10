@@ -1,10 +1,11 @@
-package com.company;
+package com.company.Chainables;
 
 /*
  * Created by Garrett on 4/22/14.
  */
 
-import com.company.Chainables.Chainable;
+import com.company.Markov.Cursor;
+
 import java.util.ArrayList;
 
 public class Chain<T extends Chainable> {

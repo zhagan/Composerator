@@ -4,7 +4,6 @@ package com.company.UI;
  * Created by garrettparrish on 5/2/14.
  */
 
-import com.company.Backend;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;

@@ -1,11 +1,11 @@
-package com.company;
+package com.company.Markov;
 
 /*
  * Created by Garrett on 4/21/14.
  */
 
+import com.company.Chainables.Chain;
 import com.company.Chainables.Chainable;
-import sun.misc.Sort;
 
 import java.util.Random;
 

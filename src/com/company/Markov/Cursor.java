@@ -1,10 +1,9 @@
-package com.company;
+package com.company.Markov;
 
 /*
  * Created by Garrett on 4/24/14.
  */
 
-import com.company.Chain;
 import com.company.Chainables.*;
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package com.company.Input_Processing;
+package com.company.Input;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -7,12 +7,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.util.Arrays;
-import javax.sound.sampled.AudioFormat;
-import java.io.InputStream;
-import java.io.FileInputStream;
 
 
 /*

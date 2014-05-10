@@ -1,4 +1,4 @@
-package com.company;
+package com.company.Markov;
 
 /*
  * Created by Garrett on 4/21/14.

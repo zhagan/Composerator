@@ -1,4 +1,4 @@
-package com.company;
+package com.company.UI;
 
 /*
  * Created by garrettparrish on 5/2/14.
@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import javax.sound.midi.*;
 import java.io.File;
 import com.company.Chainables.*;
+import com.company.Markov.MarkovMatrix;
+import com.company.Input.MidiFile;
+import com.company.Input.Song;
 
 // class to encapsulate the operation of taking input songs and
 public class Backend

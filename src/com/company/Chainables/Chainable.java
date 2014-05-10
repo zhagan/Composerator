@@ -3,8 +3,6 @@ package com.company.Chainables;
 /*
  * Created by Garrett on 4/21/14.
  */
-import java.util.ArrayList;
-import com.company.Cursor;
 
 // abstract class for elements in a markov chain (i.e. pitch, duration)
 public abstract class Chainable implements Comparable<Chainable>
